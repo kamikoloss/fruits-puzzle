@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 window/size/viewport_width=360
 window/size/viewport_height=640
+window/canvas_textures/default_texture_filter=0
 
 [rendering]
 

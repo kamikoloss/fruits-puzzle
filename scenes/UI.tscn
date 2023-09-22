@@ -1,0 +1,86 @@
+[gd_scene load_steps=2 format=3 uid="uid://bpviflesjjfts"]
+
+[ext_resource type="FontFile" uid="uid://jximbhk1lb1i" path="res://fonts/PixelMplus12-Regular.ttf" id="1_388nk"]
+
+[node name="UI" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 360.0
+offset_bottom = 640.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 360.0
+offset_bottom = 640.0
+
+[node name="Header" type="MarginContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Panel" type="Panel" parent="VBoxContainer/Header"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Header"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Scores" type="VBoxContainer" parent="VBoxContainer/Header/MarginContainer"]
+layout_mode = 2
+
+[node name="TextScore" type="RichTextLabel" parent="VBoxContainer/Header/MarginContainer/Scores"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/normal_font = ExtResource("1_388nk")
+theme_override_font_sizes/normal_font_size = 24
+text = " SCORE: 9999"
+
+[node name="TextHighScore" type="RichTextLabel" parent="VBoxContainer/Header/MarginContainer/Scores"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/normal_font = ExtResource("1_388nk")
+theme_override_font_sizes/normal_font_size = 24
+text = " HIGH SCORE: 9999"
+
+[node name="Body" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Footer" type="MarginContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Buttons" type="HBoxContainer" parent="VBoxContainer/Footer"]
+layout_mode = 2
+
+[node name="ButtonLeft" type="Button" parent="VBoxContainer/Footer/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("1_388nk")
+theme_override_font_sizes/font_size = 36
+text = "◀"
+
+[node name="ButtonDrop" type="Button" parent="VBoxContainer/Footer/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+theme_override_fonts/font = ExtResource("1_388nk")
+theme_override_font_sizes/font_size = 36
+text = "▼"
+
+[node name="ButtonRight" type="Button" parent="VBoxContainer/Footer/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("1_388nk")
+theme_override_font_sizes/font_size = 36
+text = "▶"
