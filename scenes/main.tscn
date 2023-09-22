@@ -1,3 +1,61 @@
-[gd_scene format=3 uid="uid://dbuwdegjr1j4s"]
+[gd_scene load_steps=2 format=3 uid="uid://dbuwdegjr1j4s"]
+
+[ext_resource type="FontFile" uid="uid://jximbhk1lb1i" path="res://fonts/PixelMplus12-Regular.ttf" id="1_3m1vt"]
 
 [node name="Node2D" type="Node2D"]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+offset_right = 360.0
+offset_bottom = 640.0
+
+[node name="Header" type="MarginContainer" parent="Control/VBoxContainer"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Panel" type="Panel" parent="Control/VBoxContainer/Header"]
+layout_mode = 2
+
+[node name="Score" type="RichTextLabel" parent="Control/VBoxContainer/Header"]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("1_3m1vt")
+theme_override_font_sizes/normal_font_size = 24
+text = "SCORE: 9999"
+
+[node name="Body" type="MarginContainer" parent="Control/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Footer" type="MarginContainer" parent="Control/VBoxContainer"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="MoveButtons" type="HBoxContainer" parent="Control/VBoxContainer/Footer"]
+layout_mode = 2
+
+[node name="ButtonLeft" type="Button" parent="Control/VBoxContainer/Footer/MoveButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "◀"
+
+[node name="ButtonDrop" type="Button" parent="Control/VBoxContainer/Footer/MoveButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "▼"
+
+[node name="ButtonRight" type="Button" parent="Control/VBoxContainer/Footer/MoveButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "▶"
