@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://dbuwdegjr1j4s"]
+[gd_scene load_steps=4 format=3 uid="uid://uph7lihu1wb7"]
 
 [ext_resource type="FontFile" uid="uid://jximbhk1lb1i" path="res://fonts/PixelMplus12-Regular.ttf" id="1_bj5tp"]
 [ext_resource type="Script" path="res://scenes/Game.gd" id="2_f75kx"]
@@ -12,12 +12,13 @@ anchors_preset = 0
 offset_right = 360.0
 offset_bottom = 640.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI"]
-layout_mode = 0
+[node name="CanvasLayer" type="CanvasLayer" parent="UI"]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/CanvasLayer"]
 offset_right = 360.0
 offset_bottom = 640.0
 
-[node name="Header" type="MarginContainer" parent="UI/VBoxContainer"]
+[node name="Header" type="MarginContainer" parent="UI/CanvasLayer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 theme_override_constants/margin_left = 10
@@ -25,38 +26,38 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="Panel" type="Panel" parent="UI/VBoxContainer/Header"]
+[node name="Panel" type="Panel" parent="UI/CanvasLayer/VBoxContainer/Header"]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="UI/VBoxContainer/Header"]
+[node name="MarginContainer" type="MarginContainer" parent="UI/CanvasLayer/VBoxContainer/Header"]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="Scores" type="VBoxContainer" parent="UI/VBoxContainer/Header/MarginContainer"]
+[node name="Scores" type="VBoxContainer" parent="UI/CanvasLayer/VBoxContainer/Header/MarginContainer"]
 layout_mode = 2
 
-[node name="TextScore" type="RichTextLabel" parent="UI/VBoxContainer/Header/MarginContainer/Scores"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_fonts/normal_font = ExtResource("1_bj5tp")
-theme_override_font_sizes/normal_font_size = 24
-text = " SCORE: 9999"
-
-[node name="TextHighScore" type="RichTextLabel" parent="UI/VBoxContainer/Header/MarginContainer/Scores"]
+[node name="TextScore" type="RichTextLabel" parent="UI/CanvasLayer/VBoxContainer/Header/MarginContainer/Scores"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_fonts/normal_font = ExtResource("1_bj5tp")
 theme_override_font_sizes/normal_font_size = 24
-text = " HIGH SCORE: 9999"
+text = "SCORE: 9999"
 
-[node name="Body" type="MarginContainer" parent="UI/VBoxContainer"]
+[node name="TextNext" type="RichTextLabel" parent="UI/CanvasLayer/VBoxContainer/Header/MarginContainer/Scores"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/normal_font = ExtResource("1_bj5tp")
+theme_override_font_sizes/normal_font_size = 24
+text = "NEXT: CHERRY"
+
+[node name="Body" type="MarginContainer" parent="UI/CanvasLayer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Footer" type="MarginContainer" parent="UI/VBoxContainer"]
+[node name="Footer" type="MarginContainer" parent="UI/CanvasLayer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 theme_override_constants/margin_left = 10
@@ -64,17 +65,17 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="Buttons" type="HBoxContainer" parent="UI/VBoxContainer/Footer"]
+[node name="Buttons" type="HBoxContainer" parent="UI/CanvasLayer/VBoxContainer/Footer"]
 layout_mode = 2
 
-[node name="ButtonLeft" type="Button" parent="UI/VBoxContainer/Footer/Buttons"]
+[node name="ButtonLeft" type="Button" parent="UI/CanvasLayer/VBoxContainer/Footer/Buttons"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("1_bj5tp")
 theme_override_font_sizes/font_size = 36
 text = "◀"
 
-[node name="ButtonDrop" type="Button" parent="UI/VBoxContainer/Footer/Buttons"]
+[node name="ButtonDrop" type="Button" parent="UI/CanvasLayer/VBoxContainer/Footer/Buttons"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
@@ -82,7 +83,7 @@ theme_override_fonts/font = ExtResource("1_bj5tp")
 theme_override_font_sizes/font_size = 36
 text = "▼"
 
-[node name="ButtonRight" type="Button" parent="UI/VBoxContainer/Footer/Buttons"]
+[node name="ButtonRight" type="Button" parent="UI/CanvasLayer/VBoxContainer/Footer/Buttons"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("1_bj5tp")
@@ -93,7 +94,7 @@ text = "▶"
 script = ExtResource("2_f75kx")
 
 [node name="Bucket" type="Sprite2D" parent="Game"]
-position = Vector2(180, 360)
+position = Vector2(180, 380)
 texture = ExtResource("3_dguq3")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Game/Bucket"]
@@ -101,6 +102,8 @@ texture = ExtResource("3_dguq3")
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Game/Bucket/StaticBody2D"]
 polygon = PackedVector2Array(-159, -139, -129.2, 140, 129.2, 140, 159.2, -150, 170, -150, 170, -139, 168.8, -139, 140.8, 150, -141, 150, -141, 139, -170, -140.9, -170, -150, -159, -150)
 
-[connection signal="pressed" from="UI/VBoxContainer/Footer/Buttons/ButtonLeft" to="Game" method="_on_button_left_pressed"]
-[connection signal="pressed" from="UI/VBoxContainer/Footer/Buttons/ButtonDrop" to="Game" method="_on_button_drop_pressed"]
-[connection signal="pressed" from="UI/VBoxContainer/Footer/Buttons/ButtonRight" to="Game" method="_on_button_right_pressed"]
+[connection signal="button_down" from="UI/CanvasLayer/VBoxContainer/Footer/Buttons/ButtonLeft" to="Game" method="_on_button_left_button_down"]
+[connection signal="button_up" from="UI/CanvasLayer/VBoxContainer/Footer/Buttons/ButtonLeft" to="Game" method="_on_button_left_button_up"]
+[connection signal="button_up" from="UI/CanvasLayer/VBoxContainer/Footer/Buttons/ButtonDrop" to="Game" method="_on_button_drop_button_up"]
+[connection signal="button_down" from="UI/CanvasLayer/VBoxContainer/Footer/Buttons/ButtonRight" to="Game" method="_on_button_right_button_down"]
+[connection signal="button_up" from="UI/CanvasLayer/VBoxContainer/Footer/Buttons/ButtonRight" to="Game" method="_on_button_right_button_up"]
