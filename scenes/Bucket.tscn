@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://crlw60nr65ied"]
+
+[ext_resource type="Texture2D" uid="uid://cb0vcrn03bpbn" path="res://images/bucket.png" id="1_vwlrr"]
+
+[node name="Bucket" type="Sprite2D"]
+position = Vector2(180, 360)
+texture = ExtResource("1_vwlrr")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PackedVector2Array(-159, -139, -129.2, 140, 129.2, 140, 159.2, -150, 170, -150, 170, -139, 168.8, -139, 140.8, 150, -141, 150, -141, 139, -170, -140.9, -170, -150, -159, -150)
