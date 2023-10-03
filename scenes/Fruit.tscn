@@ -1,7 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://kd4w6rul4jmp"]
+[gd_scene load_steps=5 format=3 uid="uid://kd4w6rul4jmp"]
 
 [ext_resource type="Script" path="res://scenes/Fruit.gd" id="1_l0nqi"]
 [ext_resource type="Texture2D" uid="uid://f5a5phy22pqb" path="res://images/circle.png" id="1_wt7xc"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_5glua"]
+friction = 0.1
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ea5ni"]
 radius = 128.0
@@ -11,6 +14,7 @@ script = ExtResource("1_l0nqi")
 
 [node name="RigidBody2D" type="RigidBody2D" parent="."]
 mass = 0.1
+physics_material_override = SubResource("PhysicsMaterial_5glua")
 
 [node name="Circle" type="Sprite2D" parent="RigidBody2D"]
 texture = ExtResource("1_wt7xc")
