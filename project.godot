@@ -17,7 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Global="*res://scenes/Global.gd"
+Global="*res://scenes/tmp_global.gd"
 
 [display]
 
