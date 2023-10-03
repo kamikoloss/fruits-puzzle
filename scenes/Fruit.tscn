@@ -16,6 +16,8 @@ script = ExtResource("1_mcymv")
 [node name="RigidBody2D" type="RigidBody2D" parent="."]
 mass = 0.1
 physics_material_override = SubResource("PhysicsMaterial_5glua")
+max_contacts_reported = 4
+contact_monitor = true
 
 [node name="Circle" type="Sprite2D" parent="RigidBody2D"]
 texture = ExtResource("1_wt7xc")
@@ -23,3 +25,5 @@ texture = ExtResource("1_wt7xc")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
 shape = SubResource("CircleShape2D_ea5ni")
 debug_color = Color(0, 0.6, 0.701961, 0.419608)
+
+[connection signal="body_entered" from="RigidBody2D" to="." method="_on_rigid_body_2d_body_entered"]

@@ -102,6 +102,8 @@ texture = ExtResource("3_dguq3")
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Game/Bucket/StaticBody2D"]
 polygon = PackedVector2Array(-159, -139, -129.2, 140, 129.2, 140, 159.2, -150, 170, -150, 170, -139, 168.8, -139, 140.8, 150, -141, 150, -141, 139, -170, -140.9, -170, -150, -159, -150)
 
+[node name="Fruits" type="Node2D" parent="."]
+
 [connection signal="button_down" from="UI/CanvasLayer/VBoxContainer/Footer/Buttons/ButtonLeft" to="Game" method="_on_button_left_button_down"]
 [connection signal="button_up" from="UI/CanvasLayer/VBoxContainer/Footer/Buttons/ButtonLeft" to="Game" method="_on_button_left_button_up"]
 [connection signal="button_up" from="UI/CanvasLayer/VBoxContainer/Footer/Buttons/ButtonDrop" to="Game" method="_on_button_drop_button_up"]

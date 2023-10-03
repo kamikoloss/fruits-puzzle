@@ -67,13 +67,13 @@ func _create_new_fruit():
 	_current_fruit = FRUIT_SCENE.instantiate()
 	
 	var _new_type = FRUIT_DEFAULT_TYPES[randi() % FRUIT_DEFAULT_TYPES.size()]
-	_current_fruit.initialize(_current_fruit_id,_new_type )
+	_current_fruit.initialize(_current_fruit_id, _new_type)
 	_current_fruit_id += 1
 	
 	_current_fruit.global_position = FRUIT_DEFAULT_POSITION
 	_current_fruit.get_node("RigidBody2D").freeze = true
 	
-	add_child(_current_fruit)
+	get_tree().root.get_node("Main/Fruits").add_child(_current_fruit)
 
 
 # フルーツを左右に動かす
