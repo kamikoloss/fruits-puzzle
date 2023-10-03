@@ -1,7 +1,6 @@
 extends Node2D
 
 
-# Member
 var _id = 0
 var _type = Global.FruitType.NONE
 var _data = null # FRUIT_DATA

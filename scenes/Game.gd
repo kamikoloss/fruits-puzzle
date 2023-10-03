@@ -10,19 +10,14 @@ const FRUIT_DEFAULT_TYPES = [
 	Global.FruitType.DEKOPON,
 	Global.FruitType.PERSIMMON,
 ]
-const FRUIT_MOVE_SPEED = 1 # px/frame
-const FRUIT_DELAY_SECOND = 1
+const FRUIT_MOVE_SPEED = 1.0 # px/frame
+const FRUIT_DELAY_SECOND = 1.0
 
-# Game
-var _state = 0
-var _score = 0
-
-# Fruit
+# 現在/次のフルーツ
 var _current_fruit = null
-var _current_fruit_id = 0
 var _next_fruit = null
-
-# Button
+var _current_fruit_id = 0
+# ボタンの状態
 var _is_button_left_down = false
 var _is_button_right_down = false
 
@@ -37,7 +32,6 @@ func _process(delta):
 	_move_fruit()
 
 
-# Events
 func _on_button_left_button_down():
 	_is_button_left_down = true
 
