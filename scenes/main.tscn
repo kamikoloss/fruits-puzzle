@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://uph7lihu1wb7"]
 
-[ext_resource type="FontFile" uid="uid://jximbhk1lb1i" path="res://fonts/PixelMplus12-Regular.ttf" id="1_bj5tp"]
-[ext_resource type="Script" path="res://scenes/game.gd" id="2_iwcu5"]
-[ext_resource type="Texture2D" uid="uid://cb0vcrn03bpbn" path="res://images/bucket.png" id="3_dguq3"]
+[ext_resource type="FontFile" uid="uid://jximbhk1lb1i" path="res://fonts/PixelMplus12-Regular.ttf" id="1_5ec4u"]
+[ext_resource type="Script" path="res://scenes/game.gd" id="2_hhelc"]
+[ext_resource type="Texture2D" uid="uid://cb0vcrn03bpbn" path="res://images/bucket.png" id="3_lcnow"]
 
 [node name="Main" type="Node"]
 
@@ -42,14 +42,14 @@ layout_mode = 2
 [node name="TextScore" type="RichTextLabel" parent="UI/CanvasLayer/VBoxContainer/Header/MarginContainer/Scores"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_fonts/normal_font = ExtResource("1_bj5tp")
+theme_override_fonts/normal_font = ExtResource("1_5ec4u")
 theme_override_font_sizes/normal_font_size = 24
 text = "SCORE: 9999"
 
 [node name="TextNext" type="RichTextLabel" parent="UI/CanvasLayer/VBoxContainer/Header/MarginContainer/Scores"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_fonts/normal_font = ExtResource("1_bj5tp")
+theme_override_fonts/normal_font = ExtResource("1_5ec4u")
 theme_override_font_sizes/normal_font_size = 24
 text = "NEXT: CHERRY"
 
@@ -71,7 +71,7 @@ layout_mode = 2
 [node name="ButtonLeft" type="Button" parent="UI/CanvasLayer/VBoxContainer/Footer/Buttons"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_fonts/font = ExtResource("1_bj5tp")
+theme_override_fonts/font = ExtResource("1_5ec4u")
 theme_override_font_sizes/font_size = 36
 text = "◀"
 
@@ -79,23 +79,23 @@ text = "◀"
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
-theme_override_fonts/font = ExtResource("1_bj5tp")
+theme_override_fonts/font = ExtResource("1_5ec4u")
 theme_override_font_sizes/font_size = 36
 text = "▼"
 
 [node name="ButtonRight" type="Button" parent="UI/CanvasLayer/VBoxContainer/Footer/Buttons"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_fonts/font = ExtResource("1_bj5tp")
+theme_override_fonts/font = ExtResource("1_5ec4u")
 theme_override_font_sizes/font_size = 36
 text = "▶"
 
 [node name="Game" type="Node2D" parent="."]
-script = ExtResource("2_iwcu5")
+script = ExtResource("2_hhelc")
 
 [node name="Bucket" type="Sprite2D" parent="Game"]
 position = Vector2(180, 380)
-texture = ExtResource("3_dguq3")
+texture = ExtResource("3_lcnow")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Game/Bucket"]
 

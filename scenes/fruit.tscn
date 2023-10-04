@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://kd4w6rul4jmp"]
 
-[ext_resource type="Script" path="res://scenes/fruit.gd" id="1_ffbrb"]
-[ext_resource type="Texture2D" uid="uid://f5a5phy22pqb" path="res://images/circle.png" id="2_3ny4e"]
+[ext_resource type="Script" path="res://scenes/fruit.gd" id="1_mdhkm"]
+[ext_resource type="Texture2D" uid="uid://f5a5phy22pqb" path="res://images/circle.png" id="2_rwrjp"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_5glua"]
 friction = 0.1
@@ -11,7 +11,7 @@ bounce = 0.1
 radius = 128.0
 
 [node name="Fruit" type="Node2D"]
-script = ExtResource("1_ffbrb")
+script = ExtResource("1_mdhkm")
 
 [node name="RigidBody2D" type="RigidBody2D" parent="."]
 mass = 0.1
@@ -20,7 +20,7 @@ max_contacts_reported = 4
 contact_monitor = true
 
 [node name="Circle" type="Sprite2D" parent="RigidBody2D"]
-texture = ExtResource("2_3ny4e")
+texture = ExtResource("2_rwrjp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
 shape = SubResource("CircleShape2D_ea5ni")
