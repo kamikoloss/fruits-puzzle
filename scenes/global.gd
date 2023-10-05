@@ -1,3 +1,10 @@
+extends Node
+
+
+signal state_changed
+signal score_changed
+
+
 # フルーツの種類
 enum FruitType {
 	NONE,
@@ -13,6 +20,7 @@ enum FruitType {
 	MELON,
 	WATERMELON,
 }
+
 
 # フルーツのデータ (名前, 点数, 大きさ, 色)
 # ref. https://www.colordic.org/y
@@ -30,6 +38,15 @@ const FRUIT_DATA = {
 	FruitType.WATERMELON: { "name": "WATERMELON", "score": 1024, "scale": 176, "color": "#417038" },
 }
 
-# グローバル変数
+
+# ゲームの状態
 var state = 0
-var score = 0
+
+# スコア
+var score = 0:
+	get:
+		return score
+	set(value):
+		score = value
+		score_changed.emit(value)
+		print("Score is changed. ({0})".format([value]))

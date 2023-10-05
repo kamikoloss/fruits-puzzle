@@ -10,9 +10,9 @@ var _data = null # FRUIT_DATA
 
 # 初期化
 # add_child() より前に呼ぶこと
-func initialize(id, type):
-	self.id = id
-	self.type = type
+func setup(_id, _type):
+	id = _id
+	type = _type
 	_data = Global.FRUIT_DATA[type]
 	add_to_group("Fruit")
 
@@ -25,7 +25,7 @@ func _ready():
 
 
 func _on_rigid_body_2d_body_entered(body):
-	_conbine_fruit(body)
+	_conbine_fruits(body)
 
 
 # 種類を元に自身の大きさを適用する
@@ -33,7 +33,7 @@ func _apply_scale():
 	var _new_scale = float(_data["scale"]) / 256
 	scale = Vector2(_new_scale, _new_scale)
 	
-	# 自身のスケールを子ノードに適用する (最後に戻す)
+	# 自身のスケールを子ノードに適用する
 	# ref. https://github.com/godotengine/godot/issues/5734
 	get_node("RigidBody2D/Circle").scale *= scale
 	get_node("RigidBody2D/CollisionShape2D").scale *= scale
@@ -46,7 +46,7 @@ func _apply_color():
 
 
 # 同じ種類のフルーツを合体させる
-func _conbine_fruit(body):
+func _conbine_fruits(body):
 	var _other_fruit = body.get_node("../")
 	
 	# 衝突相手がフルーツではない場合: 何もしない
@@ -61,13 +61,13 @@ func _conbine_fruit(body):
 	# 衝突相手が同じ種類のフルーツで自分が古い場合: 合体処理を行う
 	
 	# スコアを加算する
-	#Global.score += _data["score"]
+	Global.score += _data["score"]
 	
-	# 衝突相手と自分合体したフルーツを新しく生成する
-	var _convined_fruit = FRUIT_SCENE.instantiate()
-	_convined_fruit.initialize(id, type + 1)
-	_convined_fruit.global_position = global_position.lerp(_other_fruit.global_position, 0.5)
-	get_tree().root.get_node("Main/Fruits").add_child(_convined_fruit)
+	# 自分の一段階上のフルーツを新しく生成する
+	var _conbined_fruit = FRUIT_SCENE.instantiate()
+	_conbined_fruit.setup(id, type + 1)
+	_conbined_fruit.global_position = global_position.lerp(_other_fruit.global_position, 0.5)
+	get_tree().root.get_node("Main/Fruits").add_child(_conbined_fruit)
 	print("Fruits are conbined. (id: {id1}, {id2})".format({"id1": _other_fruit.id, "id2": id}))
 	
 	# 衝突相手と自分を破棄する
