@@ -5,6 +5,8 @@ const FRUIT_SCENE = preload("res://scenes/fruit.tscn")
 
 var id = 0
 var type = Global.FruitType.NONE
+# フルーツが落ちて何かに衝突したか
+var is_fell = false
 var _data = null # FRUIT_DATA
 
 
@@ -25,6 +27,8 @@ func _ready():
 
 
 func _on_rigid_body_2d_body_entered(body):
+	is_fell = true
+	Global.fruit_fell.emit(id)
 	_conbine_fruits(body)
 
 

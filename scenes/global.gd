@@ -3,6 +3,7 @@ extends Node
 
 signal state_changed
 signal score_changed
+signal fruit_fell
 
 
 # フルーツの種類

@@ -11,7 +11,6 @@ const FRUIT_DEFAULT_TYPES = [
 	Global.FruitType.PERSIMMON,
 ]
 const FRUIT_MOVE_SPEED = 1.0 # px/frame
-const FRUIT_DELAY_SECOND = 1.0
 
 
 # 現在/次のフルーツ
@@ -71,11 +70,8 @@ func _on_drop_button_up():
 	
 	# 現在のフルーツを落とす
 	_drop_fruit()
-	
-	# フルーツが落ちるまで少し待つ
-	# TODO: フルーツが落ちたタイミングを判定する
-	await get_tree().create_timer(FRUIT_DELAY_SECOND).timeout
-	
+	# フルーツが落ちて衝突するまで待つ
+	await Global.fruit_fell
 	# 次のフルーツを作成する
 	_create_new_fruit()
 
