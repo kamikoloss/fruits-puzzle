@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://uph7lihu1wb7"]
+[gd_scene load_steps=6 format=3 uid="uid://uph7lihu1wb7"]
 
 [ext_resource type="FontFile" uid="uid://jximbhk1lb1i" path="res://fonts/PixelMplus12-Regular.ttf" id="1_5ec4u"]
 [ext_resource type="Script" path="res://scenes/game.gd" id="2_hhelc"]
 [ext_resource type="Texture2D" uid="uid://cb0vcrn03bpbn" path="res://images/bucket.png" id="3_lcnow"]
+[ext_resource type="Texture2D" uid="uid://bj7isef10ov2v" path="res://images/square.png" id="4_3hjtg"]
 [ext_resource type="Texture2D" uid="uid://f5a5phy22pqb" path="res://images/circle.png" id="4_i064j"]
 
 [node name="Main" type="Node"]
@@ -102,8 +103,19 @@ text = "▶"
 [node name="Game" type="Node2D" parent="."]
 script = ExtResource("2_hhelc")
 
+[node name="DeadLine" type="Sprite2D" parent="Game"]
+modulate = Color(1, 0, 0, 0.25098)
+position = Vector2(180, 200)
+scale = Vector2(0.5, 0.05)
+texture = ExtResource("4_3hjtg")
+
+[node name="Area2D" type="Area2D" parent="Game/DeadLine"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Game/DeadLine/Area2D"]
+polygon = PackedVector2Array(128, 128, -128, 128, -128, -128, 128, -128)
+
 [node name="Bucket" type="Sprite2D" parent="Game"]
-position = Vector2(180, 380)
+position = Vector2(180, 360)
 texture = ExtResource("3_lcnow")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Game/Bucket"]
@@ -118,3 +130,4 @@ polygon = PackedVector2Array(-139, -139, -110.1, 140, 110.1, 140, 139.1, -150, 1
 [connection signal="button_up" from="UI/CanvasLayer/VBoxContainer/Footer/Buttons/Drop" to="Game" method="_on_drop_button_up"]
 [connection signal="button_down" from="UI/CanvasLayer/VBoxContainer/Footer/Buttons/Right" to="Game" method="_on_right_button_down"]
 [connection signal="button_up" from="UI/CanvasLayer/VBoxContainer/Footer/Buttons/Right" to="Game" method="_on_right_button_up"]
+[connection signal="body_entered" from="Game/DeadLine/Area2D" to="Game" method="_on_area_2d_body_entered"]
