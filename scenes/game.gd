@@ -2,6 +2,7 @@ extends Node2D
 
 
 const FRUIT_SCENE = preload("res://scenes/fruit.tscn")
+
 const FRUIT_DEFAULT_TYPES = [
 	Global.FruitType.CHERRY,
 	Global.FruitType.STRAWBERRY,
@@ -9,10 +10,11 @@ const FRUIT_DEFAULT_TYPES = [
 	Global.FruitType.DEKOPON,
 	Global.FruitType.PERSIMMON,
 ]
+
 const DROPPER_MOVE_SPEED = 1.0 # px/frame
-const DROPPER_POSITION_MIN = 60
-const DROPPER_POSITION_MAX = 300
-const DROPPER_FRUIT_MARGIN = 40
+const DROPPER_POSITION_MIN = 60 # px
+const DROPPER_POSITION_MAX = 300 # px
+const DROPPER_FRUIT_MARGIN = 40 # px
 
 
 var _current_fruit = null
@@ -129,10 +131,10 @@ func _create_new_fruit():
 	_current_fruit.setup(_current_fruit_id, _next_fruit_type)
 	_current_fruit_id += 1
 	
-	_current_fruit.global_position.x = _dropper.global_position.x
-	_current_fruit.global_position.y = _dropper.global_position.y + DROPPER_FRUIT_MARGIN
-	
+	_current_fruit.get_node("RigidBody2D").position.x = _dropper.global_position.x
+	_current_fruit.get_node("RigidBody2D").position.y = _dropper.global_position.y + DROPPER_FRUIT_MARGIN
 	_current_fruit.get_node("RigidBody2D").freeze = true
+	
 	get_tree().root.get_node("Main/Fruits").add_child(_current_fruit)
 	
 	_set_next_fruit()
@@ -166,7 +168,8 @@ func _move_dropper():
 		return
 	
 	# クレーンにフルーツがぶら下がっている場合は位置を同期させる
-	_current_fruit.global_position.x = _dropper.global_position.x
+	_current_fruit.get_node("RigidBody2D").position.x = _dropper.global_position.x
+
 
 # フルーツを落とす
 func _drop_fruit():

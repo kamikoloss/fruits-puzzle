@@ -70,7 +70,13 @@ func _conbine_fruits(body):
 	# 自分の一段階上のフルーツを新しく生成する
 	var _conbined_fruit = FRUIT_SCENE.instantiate()
 	_conbined_fruit.setup(id, type + 1)
-	_conbined_fruit.global_position = global_position.lerp(_other_fruit.global_position, 0.5)
+	
+	var _self_position = get_node("RigidBody2D").position
+	var _other_position = _other_fruit.get_node("RigidBody2D").position
+	var _new_posiiton = _self_position.lerp(_other_position, 0.5)
+	_conbined_fruit.get_node("RigidBody2D").position = _new_posiiton
+	print(_self_position, _other_position, _new_posiiton)
+	
 	get_tree().root.get_node("Main/Fruits").add_child(_conbined_fruit)
 	print("Fruits are conbined. (id: {id1}, {id2})".format({"id1": _other_fruit.id, "id2": id}))
 	
