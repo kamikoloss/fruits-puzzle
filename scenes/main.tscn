@@ -128,6 +128,12 @@ position = Vector2(180, 120)
 scale = Vector2(0.063, 0.063)
 texture = ExtResource("4_3hjtg")
 
+[node name="DropperLine" type="Sprite2D" parent="Game"]
+modulate = Color(1, 1, 1, 0.0627451)
+position = Vector2(180, 120)
+scale = Vector2(1, 0.063)
+texture = ExtResource("4_3hjtg")
+
 [node name="Fruits" type="Node2D" parent="."]
 
 [connection signal="button_down" from="UI/CanvasLayer/VBoxContainer/Footer/Buttons/Left" to="Game" method="_on_left_button_down"]
