@@ -103,17 +103,6 @@ text = "▶"
 [node name="Game" type="Node2D" parent="."]
 script = ExtResource("2_hhelc")
 
-[node name="DeadLine" type="Sprite2D" parent="Game"]
-modulate = Color(1, 0, 0, 0.25098)
-position = Vector2(180, 200)
-scale = Vector2(0.5, 0.05)
-texture = ExtResource("4_3hjtg")
-
-[node name="Area2D" type="Area2D" parent="Game/DeadLine"]
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Game/DeadLine/Area2D"]
-polygon = PackedVector2Array(128, 128, -128, 128, -128, -128, 128, -128)
-
 [node name="Bucket" type="Sprite2D" parent="Game"]
 position = Vector2(180, 360)
 texture = ExtResource("3_lcnow")
@@ -122,6 +111,22 @@ texture = ExtResource("3_lcnow")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Game/Bucket/StaticBody2D"]
 polygon = PackedVector2Array(-139, -139, -110.1, 140, 110.1, 140, 139.1, -150, 150, -150, 150, -140, 148.9, -140, 120.9, 150, -121, 150, -121, 139, -150, -140.9, -150, -150, -139, -150)
+
+[node name="DeadLine" type="Sprite2D" parent="Game"]
+modulate = Color(1, 0, 0, 0.12549)
+position = Vector2(180, 180)
+scale = Vector2(2, 0.05)
+texture = ExtResource("4_3hjtg")
+
+[node name="Area2D" type="Area2D" parent="Game/DeadLine"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Game/DeadLine/Area2D"]
+polygon = PackedVector2Array(128, 128, -128, 128, -128, -128, 128, -128)
+
+[node name="Dropper" type="Sprite2D" parent="Game"]
+position = Vector2(180, 120)
+scale = Vector2(0.063, 0.063)
+texture = ExtResource("4_3hjtg")
 
 [node name="Fruits" type="Node2D" parent="."]
 

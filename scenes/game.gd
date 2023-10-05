@@ -2,7 +2,6 @@ extends Node2D
 
 
 const FRUIT_SCENE = preload("res://scenes/fruit.tscn")
-const FRUIT_DEFAULT_POSITION = Vector2i(180, 160)
 const FRUIT_DEFAULT_TYPES = [
 	Global.FruitType.CHERRY,
 	Global.FruitType.STRAWBERRY,
@@ -10,7 +9,10 @@ const FRUIT_DEFAULT_TYPES = [
 	Global.FruitType.DEKOPON,
 	Global.FruitType.PERSIMMON,
 ]
-const FRUIT_MOVE_SPEED = 1.0 # px/frame
+const DROPPER_MOVE_SPEED = 1.0 # px/frame
+const DROPPER_POSITION_MIN = 60
+const DROPPER_POSITION_MAX = 300
+const DROPPER_FRUIT_MARGIN = 40
 
 
 var _current_fruit = null
@@ -22,6 +24,7 @@ var _is_button_left_down = false
 var _is_button_right_down = false
 
 # Node
+var _dropper = null
 var _score_text = null
 var _next_text = null
 var _next_fruit_sprite = null
@@ -30,19 +33,21 @@ var _next_fruit_sprite = null
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# Node 取得
+	_dropper = $Dropper
 	_score_text = $"../UI/CanvasLayer/VBoxContainer/Header/MarginContainer/Texts/Score"
 	_next_text = $"../UI/CanvasLayer/VBoxContainer/Header/MarginContainer/Texts/Next"
 	_next_fruit_sprite = $"../UI/CanvasLayer/VBoxContainer/Header/NextFruit"
 	
 	# Signal 設定
 	Global.score_changed.connect(_on_score_changed)
-
+	
+	# ゲームを開始する
 	_start_game()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	_move_fruit()
+	_move_dropper()
 
 
 # スコア変更時の処理
@@ -52,6 +57,7 @@ func _on_score_changed(score):
 
 # DeadLine/Area2D 衝突時の処理
 func _on_area_2d_body_entered(body):
+	# 衝突相手が落下したフルーツの場合: ゲームを終了する
 	if (_is_fell_fruit(body)):
 		_end_game()
 
@@ -93,7 +99,7 @@ func _start_game():
 	Global.score = 0
 	_score_text.text = "SCORE: {0}".format([0])
 	
-	_choose_next_fruit()
+	_set_next_fruit()
 	_create_new_fruit()
 	print("Game is started!")
 
@@ -122,15 +128,18 @@ func _create_new_fruit():
 	_current_fruit = FRUIT_SCENE.instantiate()
 	_current_fruit.setup(_current_fruit_id, _next_fruit_type)
 	_current_fruit_id += 1
-	_current_fruit.global_position = FRUIT_DEFAULT_POSITION
+	
+	_current_fruit.global_position.x = _dropper.global_position.x
+	_current_fruit.global_position.y = _dropper.global_position.y + DROPPER_FRUIT_MARGIN
+	
 	_current_fruit.get_node("RigidBody2D").freeze = true
 	get_tree().root.get_node("Main/Fruits").add_child(_current_fruit)
 	
-	_choose_next_fruit()
+	_set_next_fruit()
 
 
 # 次のフルーツを選択する
-func _choose_next_fruit():
+func _set_next_fruit():
 	# 次のフルーツの種類を抽選する
 	_next_fruit_type = FRUIT_DEFAULT_TYPES[randi() % FRUIT_DEFAULT_TYPES.size()]
 	var _next_fruit_data = Global.FRUIT_DATA[_next_fruit_type]
@@ -145,20 +154,21 @@ func _choose_next_fruit():
 	_next_fruit_sprite.modulate = Color(_next_fruit_data["color"])
 
 
-# フルーツを左右に動かす
-func _move_fruit():
+# クレーンおよびフルーツを左右に動かす
+func _move_dropper():
+	var _offset = Vector2(DROPPER_MOVE_SPEED, 0)
+	if _is_button_left_down and _dropper.global_position.x > DROPPER_POSITION_MIN:
+		_dropper.global_translate(_offset * -1)
+	if _is_button_right_down and _dropper.global_position.x < DROPPER_POSITION_MAX:
+		_dropper.global_translate(_offset)
+	
 	if _current_fruit == null:
 		return
 	
-	var _offset = Vector2(FRUIT_MOVE_SPEED, 0)
-	if _is_button_left_down:
-		_current_fruit.global_translate(_offset * -1)
-	if _is_button_right_down:
-		_current_fruit.global_translate(_offset)
-
+	# クレーンにフルーツがぶら下がっている場合は位置を同期させる
+	_current_fruit.global_position.x = _dropper.global_position.x
 
 # フルーツを落とす
 func _drop_fruit():
 	_current_fruit.get_node("RigidBody2D").freeze = false
 	_current_fruit = null
-
