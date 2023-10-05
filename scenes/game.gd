@@ -13,39 +13,47 @@ const FRUIT_DEFAULT_TYPES = [
 const FRUIT_MOVE_SPEED = 1.0 # px/frame
 
 
-# 現在/次のフルーツ
 var _current_fruit = null
 var _current_fruit_id = 0
 var _next_fruit_type = Global.FruitType.NONE
-var _next_fruit_sprite = null
-
-# UI
-var _score_text = null
-var _next_text = null
 
 # ボタンの状態
 var _is_button_left_down = false
 var _is_button_right_down = false
 
+# Node
+var _score_text = null
+var _next_text = null
+var _next_fruit_sprite = null
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	# Signals
-	Global.score_changed.connect(_on_score_changed)
-	
-	# UI
+	# Node 取得
 	_score_text = $"../UI/CanvasLayer/VBoxContainer/Header/MarginContainer/Texts/Score"
 	_next_text = $"../UI/CanvasLayer/VBoxContainer/Header/MarginContainer/Texts/Next"
 	_next_fruit_sprite = $"../UI/CanvasLayer/VBoxContainer/Header/NextFruit"
-	_score_text.text = "SCORE: {0}".format([0])
 	
-	_choose_next_fruit()
-	_create_new_fruit()
+	# Signal 設定
+	Global.score_changed.connect(_on_score_changed)
+
+	_start_game()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	_move_fruit()
+
+
+# スコア変更時の処理
+func _on_score_changed(score):
+	_score_text.text = "SCORE: {0}".format([score])
+
+
+# DeadLine/Area2D 衝突時の処理
+func _on_area_2d_body_entered(body):
+	if (_is_fell_fruit(body)):
+		_end_game()
 
 
 func _on_left_button_down():
@@ -70,15 +78,43 @@ func _on_drop_button_up():
 	
 	# 現在のフルーツを落とす
 	_drop_fruit()
-	# フルーツが落ちて衝突するまで待つ
+	# フルーツが落下するまで待つ
 	await Global.fruit_fell
 	# 次のフルーツを作成する
 	_create_new_fruit()
 
 
-# スコア変更時の処理
-func _on_score_changed(score):
-	_score_text.text = "SCORE: {0}".format([score])
+# ゲームを開始する (リセット処理も含む)
+func _start_game():
+	# リセット処理
+	_current_fruit = null
+	_current_fruit_id = 0
+	_next_fruit_type = Global.FruitType.NONE
+	Global.score = 0
+	_score_text.text = "SCORE: {0}".format([0])
+	
+	_choose_next_fruit()
+	_create_new_fruit()
+	print("Game is started!")
+
+
+# ゲームを終了する
+func _end_game():
+	print("Game is ended!")
+
+
+# 衝突相手が落下したフルーツかどうかを取得する
+func _is_fell_fruit(body):
+	var _fruit = body.get_node("../")
+	
+	# 衝突相手がフルーツではない場合
+	if (!_fruit.is_in_group("Fruit")):
+		return false
+	# 衝突相手がまだ落下していない場合
+	if (!_fruit.is_fell):
+		return false
+	
+	return true
 
 
 # 新しいフルーツを作成する
@@ -125,3 +161,4 @@ func _move_fruit():
 func _drop_fruit():
 	_current_fruit.get_node("RigidBody2D").freeze = false
 	_current_fruit = null
+
