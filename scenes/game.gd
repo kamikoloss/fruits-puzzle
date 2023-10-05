@@ -1,7 +1,7 @@
 extends Node2D
 
 
-const FRUIT_SCENE = preload("res://scenes/Fruit.tscn")
+const FRUIT_SCENE = preload("res://scenes/fruit.tscn")
 const FRUIT_DEFAULT_POSITION = Vector2i(180, 160)
 const FRUIT_DEFAULT_TYPES = [
 	Global.FruitType.CHERRY,

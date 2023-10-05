@@ -1,7 +1,7 @@
 extends Node2D
 
 
-const FRUIT_SCENE = preload("res://scenes/Fruit.tscn")
+const FRUIT_SCENE = preload("res://scenes/fruit.tscn")
 
 var id = 0
 var type = Global.FruitType.NONE
@@ -25,7 +25,7 @@ func _ready():
 
 
 func _on_rigid_body_2d_body_entered(body):
-	_convine_fruit(body)
+	_conbine_fruit(body)
 
 
 # 種類を元に自身の大きさを適用する
@@ -46,7 +46,7 @@ func _apply_color():
 
 
 # 同じ種類のフルーツを合体させる
-func _convine_fruit(body):
+func _conbine_fruit(body):
 	var _other_fruit = body.get_node("../")
 	
 	# 衝突相手がフルーツではない場合: 何もしない
@@ -62,12 +62,14 @@ func _convine_fruit(body):
 	
 	# スコアを加算する
 	#Global.score += _data["score"]
+	
 	# 衝突相手と自分合体したフルーツを新しく生成する
 	var _convined_fruit = FRUIT_SCENE.instantiate()
 	_convined_fruit.initialize(id, type + 1)
 	_convined_fruit.global_position = global_position.lerp(_other_fruit.global_position, 0.5)
 	get_tree().root.get_node("Main/Fruits").add_child(_convined_fruit)
-	print("Fruit is conviened. (id: {id1}, {id2})".format({"id1": _other_fruit.id, "id2": id}))
+	print("Fruits are conbined. (id: {id1}, {id2})".format({"id1": _other_fruit.id, "id2": id}))
+	
 	# 衝突相手と自分を破棄する
 	_other_fruit.queue_free()
 	queue_free()
