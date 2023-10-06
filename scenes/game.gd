@@ -118,9 +118,9 @@ func _create_new_fruit():
 	_current_fruit.setup(_current_fruit_id, _next_fruit_type)
 	_current_fruit_id += 1
 	
-	_current_fruit.get_node("RigidBody2D").position.x = _dropper.position.x
-	_current_fruit.get_node("RigidBody2D").position.y = _dropper.position.y + DROPPER_FRUIT_MARGIN
-	_current_fruit.get_node("RigidBody2D").freeze = true
+	_current_fruit.rb.position.x = _dropper.position.x
+	_current_fruit.rb.position.y = _dropper.position.y + DROPPER_FRUIT_MARGIN
+	_current_fruit.rb.freeze = true
 	
 	get_tree().root.get_node("Main/Fruits").add_child(_current_fruit)
 	
@@ -155,12 +155,12 @@ func _move_dropper():
 		return
 	
 	# クレーンにフルーツがぶら下がっている場合は位置を同期させる
-	_current_fruit.get_node("RigidBody2D").position.x = _dropper.position.x
+	_current_fruit.rb.position.x = _dropper.position.x
 
 
 # フルーツを落とす
 func _drop_fruit():
-	_current_fruit.get_node("RigidBody2D").freeze = false
+	_current_fruit.rb.freeze = false
 	_current_fruit = null
 
 

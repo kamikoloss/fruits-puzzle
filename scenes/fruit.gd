@@ -3,14 +3,14 @@ extends Node2D
 
 const FRUIT_SCENE = preload("res://scenes/fruit.tscn")
 
-# フルーツのサイズ (分母)
-const FRUIT_SIZE_BASE = 256
-
 
 var id = 0
 var type = Global.FruitType.NONE
 # フルーツが落下したか
 var is_fell = false
+
+# Node
+var rb = null # Rigidbody2D 露出用
 
 var _data = null # FRUIT_DATA
 
@@ -20,6 +20,9 @@ var _data = null # FRUIT_DATA
 func setup(_id, _type):
 	id = _id
 	type = _type
+	
+	rb = $RigidBody2D
+	
 	_data = Global.FRUIT_DATA[type]
 	add_to_group("Fruit")
 
@@ -79,7 +82,7 @@ func _conbine_fruits(body):
 	var _conbined_fruit = FRUIT_SCENE.instantiate()
 	_conbined_fruit.setup(id, type + 1)
 	
-	_conbined_fruit.get_node("RigidBody2D").position = get_node("RigidBody2D").position.lerp(_other_fruit.get_node("RigidBody2D").position, 0.5)
+	_conbined_fruit.rb.position = rb.position.lerp(_other_fruit.rb.position, 0.5)
 	get_tree().root.get_node("Main/Fruits").add_child(_conbined_fruit)
 	
 	print("Fruits are conbined. (id: {id1}, {id2})".format({"id1": _other_fruit.id, "id2": id}))
