@@ -13,14 +13,16 @@ radius = 128.0
 [node name="Fruit" type="Node2D"]
 script = ExtResource("1_hns41")
 
-[node name="Circle" type="Sprite2D" parent="."]
-texture = ExtResource("1_pahpe")
-
-[node name="Rigidbody2D" type="RigidBody2D" parent="."]
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
 mass = 0.1
 physics_material_override = SubResource("PhysicsMaterial_xtttg")
+max_contacts_reported = 4
+contact_monitor = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Rigidbody2D"]
+[node name="Circle" type="Sprite2D" parent="RigidBody2D"]
+texture = ExtResource("1_pahpe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
 shape = SubResource("CircleShape2D_ftgdo")
 
-[connection signal="body_entered" from="Rigidbody2D" to="Rigidbody2D" method="_on_body_entered"]
+[connection signal="body_entered" from="RigidBody2D" to="." method="_on_rigid_body_2d_body_entered"]

@@ -29,7 +29,7 @@ var _is_button_right_down = false
 var _dropper = null
 var _score_text = null
 var _next_text = null
-var _next_fruit_sprite = null
+var _next_sprite = null
 
 
 # Called when the node enters the scene tree for the first time.
@@ -38,7 +38,7 @@ func _ready():
 	_dropper = $Dropper
 	_score_text = $"../UI/CanvasLayer/VBoxContainer/Header/MarginContainer/Texts/Score"
 	_next_text = $"../UI/CanvasLayer/VBoxContainer/Header/MarginContainer/Texts/Next"
-	_next_fruit_sprite = $"../UI/CanvasLayer/VBoxContainer/Header/NextFruit"
+	_next_sprite = $"../UI/CanvasLayer/VBoxContainer/Header/NextFruit"
 	
 	# Signal 設定
 	Global.score_changed.connect(_on_score_changed)
@@ -118,9 +118,9 @@ func _create_new_fruit():
 	_current_fruit.setup(_current_fruit_id, _next_fruit_type)
 	_current_fruit_id += 1
 	
-	_current_fruit.position.x = _dropper.position.x
-	_current_fruit.position.y = _dropper.position.y + DROPPER_FRUIT_MARGIN
-	_current_fruit.freeze = true
+	_current_fruit.get_node("RigidBody2D").position.x = _dropper.position.x
+	_current_fruit.get_node("RigidBody2D").position.y = _dropper.position.y + DROPPER_FRUIT_MARGIN
+	_current_fruit.get_node("RigidBody2D").freeze = true
 	
 	get_tree().root.get_node("Main/Fruits").add_child(_current_fruit)
 	
@@ -139,8 +139,8 @@ func _set_next_fruit():
 	
 	# 次のフルーツの画像を更新する
 	var _next_scale = float(_next_fruit_data["scale"]) / 256
-	_next_fruit_sprite.scale = Vector2(_next_scale, _next_scale)
-	_next_fruit_sprite.modulate = Color(_next_fruit_data["color"])
+	_next_sprite.scale = Vector2(_next_scale, _next_scale)
+	_next_sprite.modulate = Color(_next_fruit_data["color"])
 
 
 # クレーンおよびフルーツを左右に動かす
@@ -155,22 +155,24 @@ func _move_dropper():
 		return
 	
 	# クレーンにフルーツがぶら下がっている場合は位置を同期させる
-	_current_fruit.position.x = _dropper.position.x
+	_current_fruit.get_node("RigidBody2D").position.x = _dropper.position.x
 
 
 # フルーツを落とす
 func _drop_fruit():
-	_current_fruit.freeze = false
+	_current_fruit.get_node("RigidBody2D").freeze = false
 	_current_fruit = null
 
 
 # 衝突相手が落下したフルーツかどうかを取得する
 func _is_fell_fruit(body):
+	var _fruit = body.get_node("../")
+	
 	# 衝突相手がフルーツではない場合
-	if (!body.is_in_group("Fruit")):
+	if (!_fruit.is_in_group("Fruit")):
 		return false
 	# 衝突相手がまだ落下していない場合
-	if (!body.is_fell):
+	if (!_fruit.is_fell):
 		return false
 	# 衝突相手が落下したフルーツの場合
 	return true
