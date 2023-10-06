@@ -137,6 +137,9 @@ scale = Vector2(0.05, 0.05)
 [node name="Square" type="Sprite2D" parent="Game/Dropper"]
 texture = ExtResource("4_3hjtg")
 
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Game"]
+volume_db = -12.0
+
 [node name="Fruits" type="Node2D" parent="."]
 
 [connection signal="button_down" from="UI/CanvasLayer/VBoxContainer/Footer/Buttons/Left" to="Game" method="_on_left_button_down"]

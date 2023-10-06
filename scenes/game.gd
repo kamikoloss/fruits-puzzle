@@ -1,7 +1,9 @@
 extends Node2D
 
 
-const FRUIT_SCENE = preload("res://scenes/fruit.tscn")
+const SCENE_FRUIT = preload("res://scenes/fruit.tscn")
+const SOUND_CONBINE = preload("res://sounds/小鼓（こつづみ）.mp3")
+const SOUND_GAME_OVER = preload("res://sounds/琴の滑奏.mp3")
 
 const FRUIT_DEFAULT_TYPES = [
 	Global.FruitType.CHERRY,
@@ -26,6 +28,7 @@ var _is_button_left_down = false
 var _is_button_right_down = false
 
 # Node
+var _audio_player = null
 var _dropper = null
 var _score_text = null
 var _next_text = null
@@ -35,6 +38,7 @@ var _next_sprite = null
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# Node 取得
+	_audio_player = $AudioStreamPlayer2D
 	_dropper = $Dropper
 	_score_text = $"../UI/CanvasLayer/VBoxContainer/Header/MarginContainer/Texts/Score"
 	_next_text = $"../UI/CanvasLayer/VBoxContainer/Header/MarginContainer/Texts/Next"
@@ -109,12 +113,17 @@ func _start_game():
 
 # ゲームを終了する
 func _end_game():
+	# SE を鳴らす
+	_audio_player.stop()
+	_audio_player.stream = SOUND_GAME_OVER
+	_audio_player.play()
+	
 	print("Game is ended!")
 
 
 # 新しいフルーツを作成する
 func _create_new_fruit():
-	_current_fruit = FRUIT_SCENE.instantiate()
+	_current_fruit = SCENE_FRUIT.instantiate()
 	_current_fruit.setup(_current_fruit_id, _next_fruit_type)
 	_current_fruit_id += 1
 	
