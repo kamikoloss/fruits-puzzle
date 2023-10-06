@@ -12,7 +12,8 @@ var is_fell = false
 # Node
 var rb = null # Rigidbody2D 露出用
 
-var _data = null # FRUIT_DATA
+# FRUIT_DATA
+var _data = null 
 
 
 # 初期化
@@ -83,7 +84,7 @@ func _conbine_fruits(body):
 	_conbined_fruit.setup(id, type + 1)
 	_conbined_fruit.is_fell = true
 	_conbined_fruit.rb.position = rb.position.lerp(_other_fruit.rb.position, 0.5)
-	get_tree().root.get_node("Main/Fruits").add_child(_conbined_fruit)
+	get_tree().root.get_node("Main/Game/Fruits").add_child(_conbined_fruit)
 	
 	Global.fruit_conbined.emit()
 	

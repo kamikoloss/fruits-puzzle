@@ -1,9 +1,9 @@
 extends Node2D
 
 
-const SCENE_FRUIT = preload("res://scenes/fruit.tscn")
-const SOUND_CONBINE = preload("res://sounds/小鼓（こつづみ）.mp3")
-const SOUND_GAME_OVER = preload("res://sounds/琴の滑奏.mp3")
+const FRUIT_SCENE = preload("res://scenes/fruit.tscn")
+const CONBINE_SOUND = preload("res://sounds/小鼓（こつづみ）.mp3")
+const GAME_OVER_SOUND = preload("res://sounds/琴の滑奏.mp3")
 
 const FRUIT_DEFAULT_TYPES = [
 	Global.FruitType.CHERRY,
@@ -30,26 +30,39 @@ var _is_button_right_down = false
 # Node
 var _audio_player = null
 var _dropper = null
-var _score_text = null
-var _next_text = null
+var _fruits = null
+
+var _score_label = null
+var _next_label = null
 var _next_sprite = null
+
+var _menu_container = null
+var _title_label = null
+var _start_button = null
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	# Node 取得
+	# Node
 	_audio_player = $AudioStreamPlayer2D
 	_dropper = $Dropper
-	_score_text = $"../UI/CanvasLayer/VBoxContainer/Header/MarginContainer/Texts/Score"
-	_next_text = $"../UI/CanvasLayer/VBoxContainer/Header/MarginContainer/Texts/Next"
-	_next_sprite = $"../UI/CanvasLayer/VBoxContainer/Header/NextFruit"
+	_fruits = $Fruits
+	
+	_score_label = $"../UI/CanvasLayer/VBoxContainer/Header/MarginContainer/VBoxContainer/ScoreLabel"
+	_next_label = $"../UI/CanvasLayer/VBoxContainer/Header/MarginContainer/VBoxContainer/NextLabel"
+	_next_sprite = $"../UI/CanvasLayer/VBoxContainer/Header/NextSprite"
+	
+	_menu_container = $"../UI/CanvasLayer/VBoxContainer/Body/VBoxContainer"
+	_title_label = $"../UI/CanvasLayer/VBoxContainer/Body/VBoxContainer/TitleLabel"
+	_start_button = $"../UI/CanvasLayer/VBoxContainer/Body/VBoxContainer/StartButton"
+	
+	# UI
+	_title_label.text = "FOOLUITS"
+	_start_button.text = "START"
 	
 	# Signal 設定
 	Global.score_changed.connect(_on_score_changed)
 	Global.fruit_conbined.connect(_on_fruit_conbined)
-	
-	# ゲームを開始する
-	_start_game()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -59,14 +72,14 @@ func _process(delta):
 
 # スコア変更時の処理
 func _on_score_changed(score):
-	_score_text.text = "SCORE: {0}".format([score])
+	_score_label.text = "SCORE: {0}".format([score])
 
 
 # フルーツ合体時の処理
 func _on_fruit_conbined():
 	# SE を鳴らす
 	_audio_player.stop()
-	_audio_player.stream = SOUND_CONBINE
+	_audio_player.stream = CONBINE_SOUND
 	_audio_player.play()
 
 
@@ -75,6 +88,11 @@ func _on_area_2d_body_entered(body):
 	# 衝突相手が落下したフルーツの場合: ゲームを終了する
 	if (_is_fell_fruit(body)):
 		_end_game()
+
+
+func _on_start_button_up():
+	# ゲームを開始する
+	_start_game()
 
 
 func _on_left_button_down():
@@ -112,7 +130,7 @@ func _start_game():
 	_current_fruit_id = 0
 	_next_fruit_type = Global.FruitType.NONE
 	Global.score = 0
-	_score_text.text = "SCORE: {0}".format([0])
+	_score_label.text = "SCORE: {0}".format([0])
 	
 	_set_next_fruit()
 	_create_new_fruit()
@@ -124,15 +142,19 @@ func _start_game():
 func _end_game():
 	# SE を鳴らす
 	_audio_player.stop()
-	_audio_player.stream = SOUND_GAME_OVER
+	_audio_player.stream = GAME_OVER_SOUND
 	_audio_player.play()
+	
+	# リトライ画面を設定する
+	_title_label.text = "GAME OVER"
+	_start_button.text = "RETRY"
 	
 	print("Game is ended!")
 
 
 # 新しいフルーツを作成する
 func _create_new_fruit():
-	_current_fruit = SCENE_FRUIT.instantiate()
+	_current_fruit = FRUIT_SCENE.instantiate()
 	_current_fruit.setup(_current_fruit_id, _next_fruit_type)
 	_current_fruit_id += 1
 	
@@ -140,7 +162,7 @@ func _create_new_fruit():
 	_current_fruit.rb.position.y = _dropper.position.y + DROPPER_FRUIT_MARGIN
 	_current_fruit.rb.freeze = true
 	
-	get_tree().root.get_node("Main/Fruits").add_child(_current_fruit)
+	get_tree().root.get_node("Main/Game/Fruits").add_child(_current_fruit)
 	
 	_set_next_fruit()
 
@@ -153,7 +175,7 @@ func _set_next_fruit():
 	
 	# 次のフルーツの文字を更新する
 	var _next_fruit_name = _next_fruit_data["name"]
-	_next_text.text = "NEXT: {0}".format([_next_fruit_name])
+	_next_label.text = "NEXT: {0}".format([_next_fruit_name])
 	
 	# 次のフルーツの画像を更新する
 	var _next_scale = float(_next_fruit_data["scale"]) / Global.FRUIT_SIZE_BASE
