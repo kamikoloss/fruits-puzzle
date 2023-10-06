@@ -56,13 +56,15 @@ func _ready():
 	_title_label = $"../UI/CanvasLayer/VBoxContainer/Body/VBoxContainer/TitleLabel"
 	_start_button = $"../UI/CanvasLayer/VBoxContainer/Body/VBoxContainer/StartButton"
 	
-	# UI
+	# 開始画面を設定する
 	_title_label.text = "FOOLUITS"
 	_start_button.text = "START"
 	
 	# Signal 設定
 	Global.score_changed.connect(_on_score_changed)
 	Global.fruit_conbined.connect(_on_fruit_conbined)
+	
+	set_process(false)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -130,16 +132,27 @@ func _start_game():
 	_current_fruit_id = 0
 	_next_fruit_type = Global.FruitType.NONE
 	Global.score = 0
+	
+	# バケツ内のフルーツをすべて破棄する
+	for node in _fruits.get_children():
+		_fruits.remove_child(node)
+		node.queue_free()
+	
+	# UI
 	_score_label.text = "SCORE: {0}".format([0])
+	_menu_container.hide()
 	
 	_set_next_fruit()
 	_create_new_fruit()
+	set_process(true)
 	
 	print("Game is started!")
 
 
 # ゲームを終了する
 func _end_game():
+	set_process(false)
+	
 	# SE を鳴らす
 	_audio_player.stop()
 	_audio_player.stream = GAME_OVER_SOUND
@@ -148,6 +161,7 @@ func _end_game():
 	# リトライ画面を設定する
 	_title_label.text = "GAME OVER"
 	_start_button.text = "RETRY"
+	_menu_container.show()
 	
 	print("Game is ended!")
 
