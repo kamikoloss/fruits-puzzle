@@ -46,6 +46,7 @@ func _ready():
 	
 	# Signal 設定
 	Global.score_changed.connect(_on_score_changed)
+	Global.fruit_conbined.connect(_on_fruit_conbined)
 	
 	# ゲームを開始する
 	_start_game()
@@ -59,6 +60,14 @@ func _process(delta):
 # スコア変更時の処理
 func _on_score_changed(score):
 	_score_text.text = "SCORE: {0}".format([score])
+
+
+# フルーツ合体時の処理
+func _on_fruit_conbined():
+	# SE を鳴らす
+	_audio_player.stop()
+	_audio_player.stream = SOUND_CONBINE
+	_audio_player.play()
 
 
 # DeadLine/Area2D 衝突時の処理

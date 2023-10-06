@@ -1,9 +1,9 @@
 extends Node
 
 
-signal state_changed
 signal score_changed
 signal fruit_fell
+signal fruit_conbined
 
 
 # フルーツの種類
@@ -21,6 +21,7 @@ enum FruitType {
 	MELON,
 	WATERMELON,
 }
+
 
 # フルーツの大きさの基準
 # 256x/FRUIT_SIZE_BASE (px) になる

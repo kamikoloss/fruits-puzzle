@@ -85,6 +85,8 @@ func _conbine_fruits(body):
 	_conbined_fruit.rb.position = rb.position.lerp(_other_fruit.rb.position, 0.5)
 	get_tree().root.get_node("Main/Fruits").add_child(_conbined_fruit)
 	
+	Global.fruit_conbined.emit()
+	
 	print("Fruits are conbined. (id: {id1}, {id2})".format({"id1": _other_fruit.id, "id2": id}))
 
 
