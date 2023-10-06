@@ -81,6 +81,11 @@ func _on_score_changed(score):
 
 # フルーツ合体時の処理
 func _on_fruit_conbined():
+	# ゲーム中ではない場合: 何もしない
+	# ゲーム終了時の音を優先するため
+	if !_is_game_active:
+		return
+	
 	# SE を鳴らす
 	_audio_player.stop()
 	_audio_player.stream = CONBINE_SOUND
