@@ -11,6 +11,7 @@ var id = 0
 var type = Global.FruitType.NONE
 # フルーツが落下したか
 var is_fell = false
+
 var _data = null # FRUIT_DATA
 
 
