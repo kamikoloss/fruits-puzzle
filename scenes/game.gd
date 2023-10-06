@@ -103,6 +103,7 @@ func _start_game():
 	
 	_set_next_fruit()
 	_create_new_fruit()
+	
 	print("Game is started!")
 
 
@@ -113,15 +114,13 @@ func _end_game():
 
 # 衝突相手が落下したフルーツかどうかを取得する
 func _is_fell_fruit(body):
-	var _fruit = body.get_node("../")
-	
 	# 衝突相手がフルーツではない場合
-	if (!_fruit.is_in_group("Fruit")):
+	if (!body.is_in_group("Fruit")):
 		return false
 	# 衝突相手がまだ落下していない場合
-	if (!_fruit.is_fell):
+	if (!body.is_fell):
 		return false
-	
+	# 衝突相手が落下したフルーツの場合
 	return true
 
 
@@ -131,9 +130,9 @@ func _create_new_fruit():
 	_current_fruit.setup(_current_fruit_id, _next_fruit_type)
 	_current_fruit_id += 1
 	
-	_current_fruit.get_node("RigidBody2D").position.x = _dropper.global_position.x
-	_current_fruit.get_node("RigidBody2D").position.y = _dropper.global_position.y + DROPPER_FRUIT_MARGIN
-	_current_fruit.get_node("RigidBody2D").freeze = true
+	_current_fruit.position.x = _dropper.global_position.x
+	_current_fruit.position.y = _dropper.global_position.y + DROPPER_FRUIT_MARGIN
+	_current_fruit.freeze = true
 	
 	get_tree().root.get_node("Main/Fruits").add_child(_current_fruit)
 	
@@ -168,10 +167,10 @@ func _move_dropper():
 		return
 	
 	# クレーンにフルーツがぶら下がっている場合は位置を同期させる
-	_current_fruit.get_node("RigidBody2D").position.x = _dropper.global_position.x
+	_current_fruit.position.x = _dropper.global_position.x
 
 
 # フルーツを落とす
 func _drop_fruit():
-	_current_fruit.get_node("RigidBody2D").freeze = false
+	_current_fruit.freeze = false
 	_current_fruit = null
