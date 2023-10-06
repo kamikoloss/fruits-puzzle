@@ -48,7 +48,7 @@ func _on_rigid_body_2d_body_entered(body):
 
 # 種類を元に自身の大きさを適用する
 func _apply_scale():
-	var _new_scale = float(_data["scale"]) / FRUIT_SIZE_BASE
+	var _new_scale = float(_data["scale"]) / Global.FRUIT_SIZE_BASE
 	scale = Vector2(_new_scale, _new_scale)
 	
 	# 自身のスケールを子ノードに適用したあと自身のスケールをデフォルトに戻す

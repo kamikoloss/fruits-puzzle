@@ -22,6 +22,9 @@ enum FruitType {
 	WATERMELON,
 }
 
+# フルーツの大きさの基準
+# 256x/FRUIT_SIZE_BASE (px) になる
+const FRUIT_SIZE_BASE = 256
 
 # フルーツのデータ (名前, 点数, 大きさ, 色)
 # ref. https://www.colordic.org/y

@@ -138,7 +138,7 @@ func _set_next_fruit():
 	_next_text.text = "NEXT: {0}".format([_next_fruit_name])
 	
 	# 次のフルーツの画像を更新する
-	var _next_scale = float(_next_fruit_data["scale"]) / 256
+	var _next_scale = float(_next_fruit_data["scale"]) / Global.FRUIT_SIZE_BASE
 	_next_sprite.scale = Vector2(_next_scale, _next_scale)
 	_next_sprite.modulate = Color(_next_fruit_data["color"])
 
