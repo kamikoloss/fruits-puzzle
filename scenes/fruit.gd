@@ -37,7 +37,9 @@ func _on_body_entered(body):
 		is_fell = true
 		Global.fruit_fell.emit(id)
 	
-	_conbine_fruits(body)
+	# 衝突相手が自分と同じ種類の自分より若いフルーツの場合: 合体する
+	if (_is_same_fresh_fruit(body)):
+		_conbine_fruits(body)
 
 
 # 種類を元に自身の大きさを適用する
@@ -57,20 +59,8 @@ func _apply_color():
 	get_node("Circle").modulate = Color(_data["color"])
 
 
-# 同じ種類のフルーツを合体させる
+# フルーツを合体させる
 func _conbine_fruits(body):
-	# 衝突相手がフルーツではない場合: 何もしない
-	if (!body.is_in_group("Fruit")):
-		return
-	# 衝突相手が違う種類の場合: 何もしない
-	if (body.type != type):
-		return
-	# 衝突相手が自分より古い場合: 何もしない
-	# 自分自身と無限に合体するバグがあるため ">" ではなく ">=" とする
-	if (body.id >= id):
-		return
-	# 衝突相手が同じ種類のフルーツで自分が古い場合: 合体処理を行う
-	
 	# スコアを加算する
 	Global.score += _data["score"]
 	
@@ -89,3 +79,19 @@ func _conbine_fruits(body):
 	get_tree().root.get_node("Main/Fruits").add_child(_conbined_fruit)
 	
 	print("Fruits are conbined. (id: {id1}, {id2})".format({"id1": body.id, "id2": id}))
+
+
+# 衝突相手が自分と同じ種類の自分より若いフルーツかどうかを取得する
+func _is_same_fresh_fruit(body):
+	# 衝突相手がフルーツではない場合
+	if (!body.is_in_group("Fruit")):
+		return false
+	# 衝突相手が違う種類の場合
+	if (body.type != type):
+		return false
+	# 衝突相手が自分より古い場合
+	# 自分自身と無限に合体するバグがあるため ">" ではなく ">=" とする
+	if (body.id >= id):
+		return false
+	# 衝突相手が自分と同じ種類の自分より若いフルーツの場合
+	return true

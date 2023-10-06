@@ -112,26 +112,14 @@ func _end_game():
 	print("Game is ended!")
 
 
-# 衝突相手が落下したフルーツかどうかを取得する
-func _is_fell_fruit(body):
-	# 衝突相手がフルーツではない場合
-	if (!body.is_in_group("Fruit")):
-		return false
-	# 衝突相手がまだ落下していない場合
-	if (!body.is_fell):
-		return false
-	# 衝突相手が落下したフルーツの場合
-	return true
-
-
 # 新しいフルーツを作成する
 func _create_new_fruit():
 	_current_fruit = FRUIT_SCENE.instantiate()
 	_current_fruit.setup(_current_fruit_id, _next_fruit_type)
 	_current_fruit_id += 1
 	
-	_current_fruit.position.x = _dropper.global_position.x
-	_current_fruit.position.y = _dropper.global_position.y + DROPPER_FRUIT_MARGIN
+	_current_fruit.position.x = _dropper.position.x
+	_current_fruit.position.y = _dropper.position.y + DROPPER_FRUIT_MARGIN
 	_current_fruit.freeze = true
 	
 	get_tree().root.get_node("Main/Fruits").add_child(_current_fruit)
@@ -158,19 +146,31 @@ func _set_next_fruit():
 # クレーンおよびフルーツを左右に動かす
 func _move_dropper():
 	var _offset = Vector2(DROPPER_MOVE_SPEED, 0)
-	if _is_button_left_down and _dropper.global_position.x > DROPPER_POSITION_MIN:
-		_dropper.global_translate(_offset * -1)
-	if _is_button_right_down and _dropper.global_position.x < DROPPER_POSITION_MAX:
-		_dropper.global_translate(_offset)
+	if _is_button_left_down and _dropper.position.x > DROPPER_POSITION_MIN:
+		_dropper.translate(_offset * -1)
+	if _is_button_right_down and _dropper.position.x < DROPPER_POSITION_MAX:
+		_dropper.translate(_offset)
 	
 	if _current_fruit == null:
 		return
 	
 	# クレーンにフルーツがぶら下がっている場合は位置を同期させる
-	_current_fruit.position.x = _dropper.global_position.x
+	_current_fruit.position.x = _dropper.position.x
 
 
 # フルーツを落とす
 func _drop_fruit():
 	_current_fruit.freeze = false
 	_current_fruit = null
+
+
+# 衝突相手が落下したフルーツかどうかを取得する
+func _is_fell_fruit(body):
+	# 衝突相手がフルーツではない場合
+	if (!body.is_in_group("Fruit")):
+		return false
+	# 衝突相手がまだ落下していない場合
+	if (!body.is_fell):
+		return false
+	# 衝突相手が落下したフルーツの場合
+	return true
