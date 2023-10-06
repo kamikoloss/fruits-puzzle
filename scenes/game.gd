@@ -19,6 +19,7 @@ const DROPPER_POSITION_MAX = 300 # px
 const DROPPER_FRUIT_MARGIN = 40 # px
 
 
+var _is_game_active = false
 var _current_fruit = null
 var _current_fruit_id = 0
 var _next_fruit_type = Global.FruitType.NONE
@@ -43,7 +44,7 @@ var _start_button = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	# Node
+	# Node 取得
 	_audio_player = $AudioStreamPlayer2D
 	_dropper = $Dropper
 	_fruits = $Fruits
@@ -64,6 +65,7 @@ func _ready():
 	Global.score_changed.connect(_on_score_changed)
 	Global.fruit_conbined.connect(_on_fruit_conbined)
 	
+	_is_game_active = false
 	set_process(false)
 
 
@@ -114,6 +116,8 @@ func _on_right_button_up():
 
 
 func _on_drop_button_up():
+	if !_is_game_active:
+		return
 	if _current_fruit == null:
 		return
 	
@@ -144,6 +148,8 @@ func _start_game():
 	
 	_set_next_fruit()
 	_create_new_fruit()
+	
+	_is_game_active = true
 	set_process(true)
 	
 	print("Game is started!")
@@ -151,6 +157,7 @@ func _start_game():
 
 # ゲームを終了する
 func _end_game():
+	_is_game_active = false
 	set_process(false)
 	
 	# SE を鳴らす

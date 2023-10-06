@@ -44,9 +44,6 @@ const FRUIT_DATA = {
 }
 
 
-# ゲームの状態
-var state = 0
-
 # スコア
 var score = 0:
 	get:

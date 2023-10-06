@@ -12,6 +12,7 @@ var is_fell = false
 # Node
 var rb = null # Rigidbody2D 露出用
 
+
 # FRUIT_DATA
 var _data = null 
 
@@ -19,12 +20,13 @@ var _data = null
 # 初期化
 # add_child() より前に呼ぶこと
 func setup(_id, _type):
-	id = _id
-	type = _type
-	
+	# Node 取得
 	rb = $RigidBody2D
 	
+	id = _id
+	type = _type
 	_data = Global.FRUIT_DATA[type]
+	
 	add_to_group("Fruit")
 
 
