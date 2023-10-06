@@ -81,7 +81,7 @@ func _conbine_fruits(body):
 	# 自分の一段階上のフルーツを新しく生成する
 	var _conbined_fruit = FRUIT_SCENE.instantiate()
 	_conbined_fruit.setup(id, type + 1)
-	
+	_conbined_fruit.is_fell = true
 	_conbined_fruit.rb.position = rb.position.lerp(_other_fruit.rb.position, 0.5)
 	get_tree().root.get_node("Main/Fruits").add_child(_conbined_fruit)
 	
