@@ -13,7 +13,7 @@ const FRUIT_DEFAULT_TYPES = [
 	Global.FruitType.PERSIMMON,
 ]
 
-const DROPPER_MOVE_SPEED = 1.0 # px/frame
+const DROPPER_MOVE_SPEED = 100 # px/s
 const DROPPER_POSITION_MIN = 60 # px
 const DROPPER_POSITION_MAX = 300 # px
 const DROPPER_FRUIT_MARGIN = 40 # px
@@ -67,7 +67,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	_move_dropper()
+	_move_dropper(delta)
 
 
 # スコア変更時の処理
@@ -184,8 +184,8 @@ func _set_next_fruit():
 
 
 # クレーンおよびフルーツを左右に動かす
-func _move_dropper():
-	var _offset = Vector2(DROPPER_MOVE_SPEED, 0)
+func _move_dropper(delta):
+	var _offset = Vector2(delta * DROPPER_MOVE_SPEED, 0)
 	if _is_button_left_down and _dropper.position.x > DROPPER_POSITION_MIN:
 		_dropper.translate(_offset * -1)
 	if _is_button_right_down and _dropper.position.x < DROPPER_POSITION_MAX:
