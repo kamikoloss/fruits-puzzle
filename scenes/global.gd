@@ -24,8 +24,8 @@ enum FruitType {
 
 
 # フルーツの大きさの基準
-# 256x/FRUIT_SIZE_BASE (px) になる
-const FRUIT_SIZE_BASE = 256
+# 256 * FRUIT_DATA["scale"] / FRUIT_SIZE_BASE (px) になる
+const FRUIT_SIZE_BASE = 200
 
 # フルーツのデータ (名前, 点数, 大きさ, 色)
 # ref. https://www.colordic.org/y
