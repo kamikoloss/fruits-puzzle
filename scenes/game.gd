@@ -165,6 +165,10 @@ func _end_game():
 	_is_game_active = false
 	set_process(false)
 	
+	# バケツ内のフルーツをすべて静止させる
+	for node in _fruits.get_children():
+		node.rb.sleeping = true
+	
 	# SE を鳴らす
 	_audio_player.stop()
 	_audio_player.stream = GAME_OVER_SOUND
