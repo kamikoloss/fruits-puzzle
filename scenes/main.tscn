@@ -160,6 +160,7 @@ modulate = Color(1, 0, 0, 0.25098)
 texture = ExtResource("4_3hjtg")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Game/DeadLine/Area2D"]
+position = Vector2(0, -64)
 shape = SubResource("RectangleShape2D_nddcy")
 
 [node name="Dropper" type="Node2D" parent="Game"]
