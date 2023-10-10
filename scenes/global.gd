@@ -1,8 +1,11 @@
 extends Node
 
 
+# スコアが変わったときに発火する
 signal score_changed
+# 上から落とされたフルーツが何かに衝突したときに発火する
 signal fruit_fell
+# フルーツが合体したときに発火する
 signal fruit_conbined
 
 
@@ -44,7 +47,7 @@ const FRUIT_DATA = {
 }
 
 
-# スコア
+# ゲームのスコア
 var score = 0:
 	get:
 		return score

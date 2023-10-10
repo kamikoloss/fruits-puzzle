@@ -16,7 +16,7 @@ script = ExtResource("1_hns41")
 [node name="RigidBody2D" type="RigidBody2D" parent="."]
 mass = 0.1
 physics_material_override = SubResource("PhysicsMaterial_xtttg")
-max_contacts_reported = 4
+max_contacts_reported = 8
 contact_monitor = true
 
 [node name="Circle" type="Sprite2D" parent="RigidBody2D"]

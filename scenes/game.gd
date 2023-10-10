@@ -37,7 +37,7 @@ var _score_label = null
 var _next_label = null
 var _next_sprite = null
 
-var _menu_container = null
+var _menu_container = null # 開始時/リトライ時 兼用のメニュー
 var _title_label = null
 var _start_button = null
 
@@ -57,7 +57,7 @@ func _ready():
 	_title_label = $"../UI/CanvasLayer/VBoxContainer/Body/VBoxContainer/TitleLabel"
 	_start_button = $"../UI/CanvasLayer/VBoxContainer/Body/VBoxContainer/StartButton"
 	
-	# 開始画面を設定する
+	# 開始時のメニューを設定する
 	_title_label.text = "FOOLUITS"
 	_start_button.text = "START"
 	
@@ -81,7 +81,7 @@ func _on_score_changed(score):
 
 # フルーツ合体時の処理
 func _on_fruit_conbined():
-	# ゲーム中ではない場合: 何もしない
+	# ゲーム進行中ではない場合: 何もしない
 	# ゲーム終了時の音を優先するため
 	if !_is_game_active:
 		return
@@ -136,21 +136,9 @@ func _on_drop_button_up():
 
 # ゲームを開始する (リセット処理も含む)
 func _start_game():
-	# リセット処理
-	_current_fruit = null
-	_current_fruit_id = 0
-	_next_fruit_type = Global.FruitType.NONE
-	Global.score = 0
-	
-	# バケツ内のフルーツをすべて破棄する
-	for node in _fruits.get_children():
-		_fruits.remove_child(node)
-		node.queue_free()
-	
-	# UI
-	_score_label.text = "SCORE: {0}".format([0])
 	_menu_container.hide()
 	
+	_reset_game()
 	_set_next_fruit()
 	_create_new_fruit()
 	
@@ -174,12 +162,30 @@ func _end_game():
 	_audio_player.stream = GAME_OVER_SOUND
 	_audio_player.play()
 	
-	# リトライ画面を設定する
+	# リトライ時のメニューを設定する
 	_title_label.text = "GAME OVER"
 	_start_button.text = "RETRY"
 	_menu_container.show()
 	
 	print("Game is ended!")
+
+
+# ゲームを初期状態にする
+func _reset_game():
+	# Grobal
+	Global.score = 0
+	
+	# Private
+	_is_game_active = false
+	_current_fruit = null
+	_current_fruit_id = 0
+	_next_fruit_type = Global.FruitType.NONE
+	_dead_fruit_id_list = []
+	
+	# バケツ内のフルーツをすべて破棄する
+	for node in _fruits.get_children():
+		_fruits.remove_child(node)
+		node.queue_free()
 
 
 # 新しいフルーツを作成する
@@ -232,17 +238,3 @@ func _move_dropper(delta):
 func _drop_fruit():
 	_current_fruit.rb.freeze = false
 	_current_fruit = null
-
-
-# 衝突相手が落下したフルーツかどうかを取得する
-func _is_fell_fruit(body):
-	var _fruit = body.get_node("../")
-	
-	# 衝突相手がフルーツではない場合
-	if (!_fruit.is_in_group("Fruit")):
-		return false
-	# 衝突相手がまだ落下していない場合
-	if (!_fruit.is_fell):
-		return false
-	# 衝突相手が落下したフルーツの場合
-	return true

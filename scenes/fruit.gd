@@ -13,8 +13,7 @@ var is_fell = false
 var rb = null # Rigidbody2D 露出用
 
 
-# FRUIT_DATA
-var _data = null 
+var _data = null # FRUIT_DATA のショートカット用
 
 
 # 初期化
