@@ -83,6 +83,7 @@ func _on_score_changed(score):
 
 # フルーツ落下時の処理
 func _on_fruit_fell(fruit_id):
+	# 落下したフルーツが DeadLine に触れている場合: ゲームを終了する
 	if (fruit_id in _dead_fruit_id_list):
 		_end_game()
 
@@ -107,6 +108,10 @@ func _on_area_2d_body_entered(body):
 	# 触れた相手がフルーツの場合: ID をリストに追加する
 	if (_fruit.is_in_group("Fruit")):
 		_dead_fruit_id_list.append(_fruit.id)
+		# 触れた相手が既に落下していた場合: ゲームを終了する
+		# せりあがって触れたときや飛び上がって触れたときを考慮している
+		if (_fruit.is_fell):
+			_end_game()
 
 
 # DeadLine/Area2D から離れたときの処理
