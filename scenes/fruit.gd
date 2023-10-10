@@ -41,6 +41,16 @@ func _ready():
 
 
 func _on_rigid_body_2d_body_entered(body):
+	# 触れた相手が自分と同じ種類の自分より若いフルーツの場合: 合体する
+	if (_is_same_fresh_fruit(body)):
+		_conbine_fruits(body)
+		# 合体したときも空から落下した扱いとする
+		if (!is_fell && is_from_sky):
+			Global.fruit_fell_from_sky.emit(id)
+		# 合体したフルーツでゲームオーバーになってしまうため
+		# fruit_fell を呼ばないようにする
+		return
+	
 	# 初めて何かに触れた = 落下した
 	if (!is_fell):
 		is_fell = true
@@ -48,10 +58,6 @@ func _on_rigid_body_2d_body_entered(body):
 		# 空から振ってきた場合
 		if (is_from_sky):
 			Global.fruit_fell_from_sky.emit(id)
-	
-	# 触れた相手が自分と同じ種類の自分より若いフルーツの場合: 合体する
-	if (_is_same_fresh_fruit(body)):
-		_conbine_fruits(body)
 
 
 # 種類を元に自身の大きさを適用する
