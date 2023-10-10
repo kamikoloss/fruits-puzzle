@@ -30,7 +30,7 @@ func setup(_id, _type):
 	type = _type
 	_data = Global.FRUIT_DATA[type]
 	
-	_type_label.text = str(_type)
+	_type_label.text = str(_data["score"])
 	
 	add_to_group("Fruit")
 
