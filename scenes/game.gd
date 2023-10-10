@@ -243,7 +243,8 @@ func _set_next_fruit():
 	# 次のフルーツの画像を更新する
 	var _next_scale = float(_next_fruit_data["scale"]) / Global.FRUIT_SIZE_BASE
 	_next_sprite.scale = Vector2(_next_scale, _next_scale)
-	_next_sprite.modulate = Color(_next_fruit_data["color"])
+	_next_sprite.get_node("Circle").modulate = Color(_next_fruit_data["color"])
+	_next_sprite.get_node("Label").text = str(_next_fruit_data["score"])
 
 
 # クレーンおよびフルーツを左右に動かす
