@@ -14,7 +14,7 @@ var is_fell = false
 
 # Node
 var rb = null # Rigidbody2D 露出用
-
+var _type_label = null
 
 var _data = null # FRUIT_DATA のショートカット用
 
@@ -24,10 +24,13 @@ var _data = null # FRUIT_DATA のショートカット用
 func setup(_id, _type):
 	# Node 取得
 	rb = $RigidBody2D
+	_type_label = $RigidBody2D/Label
 	
 	id = _id
 	type = _type
 	_data = Global.FRUIT_DATA[type]
+	
+	_type_label.text = str(_type)
 	
 	add_to_group("Fruit")
 
@@ -69,6 +72,7 @@ func _apply_scale():
 	# ref. https://github.com/godotengine/godot/issues/5734
 	get_node("RigidBody2D/Circle").scale *= scale
 	get_node("RigidBody2D/CollisionShape2D").scale *= scale
+	_type_label.scale *= scale
 	scale = Vector2.ONE
 
 
