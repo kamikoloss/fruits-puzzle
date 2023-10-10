@@ -19,7 +19,7 @@ const DROPPER_POSITION_MAX = 300 # px
 const DROPPER_FRUIT_MARGIN = 40 # px
 
 
-var _is_game_active = false
+var _is_game_active = false # ゲームが進行中か
 var _current_fruit = null
 var _current_fruit_id = 0
 var _next_fruit_type = Global.FruitType.NONE
@@ -66,7 +66,7 @@ func _ready():
 	Global.score_changed.connect(_on_score_changed)
 	Global.fruit_fell.connect(_on_fruit_fell)
 	Global.fruit_conbined.connect(_on_fruit_conbined)
-
+	
 	_is_game_active = false
 	set_process(false)
 

@@ -14,7 +14,7 @@ var is_fell = false
 
 # Node
 var rb = null # Rigidbody2D 露出用
-var _type_label = null
+var _score_label = null
 
 var _data = null # FRUIT_DATA のショートカット用
 
@@ -24,13 +24,12 @@ var _data = null # FRUIT_DATA のショートカット用
 func setup(_id, _type):
 	# Node 取得
 	rb = $RigidBody2D
-	_type_label = $RigidBody2D/Label
+	_score_label = $RigidBody2D/Label
 	
 	id = _id
 	type = _type
 	_data = Global.FRUIT_DATA[type]
-	
-	_type_label.text = str(_data["score"])
+	_score_label.text = str(_data["score"])
 	
 	add_to_group("Fruit")
 
@@ -50,8 +49,8 @@ func _on_rigid_body_2d_body_entered(body):
 		# 合体したときも空から落下した扱いとする
 		if (!is_fell && is_from_sky):
 			Global.fruit_fell_from_sky.emit(id)
-		# 合体したフルーツでゲームオーバーになってしまうため
-		# fruit_fell を呼ばないようにする
+		# fruit_fell 時にゲームオーバーの判定が行われる
+		# 合体したフルーツでゲームオーバーにならないように呼ばないようにする
 		return
 	
 	# 初めて何かに触れた = 落下した
@@ -72,7 +71,7 @@ func _apply_scale():
 	# ref. https://github.com/godotengine/godot/issues/5734
 	get_node("RigidBody2D/Circle").scale *= scale
 	get_node("RigidBody2D/CollisionShape2D").scale *= scale
-	_type_label.scale *= scale
+	_score_label.scale *= scale
 	scale = Vector2.ONE
 
 
