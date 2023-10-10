@@ -6,6 +6,9 @@ const FRUIT_SCENE = preload("res://scenes/fruit.tscn")
 
 var id = 0
 var type = Global.FruitType.NONE
+# フルーツが空から振ってきたものか
+# 合体してできたものは false となる 
+var is_from_sky = true
 # フルーツが落下したか
 var is_fell = false
 
@@ -38,12 +41,15 @@ func _ready():
 
 
 func _on_rigid_body_2d_body_entered(body):
-	# 初めて何かに衝突した = 落下した
+	# 初めて何かに触れた = 落下した
 	if (!is_fell):
 		is_fell = true
 		Global.fruit_fell.emit(id)
+		# 空から振ってきた場合
+		if (is_from_sky):
+			Global.fruit_fell_from_sky.emit(id)
 	
-	# 衝突相手が自分と同じ種類の自分より若いフルーツの場合: 合体する
+	# 触れた相手が自分と同じ種類の自分より若いフルーツの場合: 合体する
 	if (_is_same_fresh_fruit(body)):
 		_conbine_fruits(body)
 
@@ -83,7 +89,7 @@ func _conbine_fruits(body):
 	# 自分の一段階上のフルーツを新しく生成する
 	var _conbined_fruit = FRUIT_SCENE.instantiate()
 	_conbined_fruit.setup(id, type + 1)
-	_conbined_fruit.is_fell = true
+	_conbined_fruit.is_from_sky = false
 	_conbined_fruit.rb.position = rb.position.lerp(_other_fruit.rb.position, 0.5)
 	get_tree().root.get_node("Main/Game/Fruits").add_child(_conbined_fruit)
 	

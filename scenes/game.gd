@@ -128,8 +128,8 @@ func _on_drop_button_up():
 	
 	# 現在のフルーツを落とす
 	_drop_fruit()
-	# フルーツが落下するまで待つ
-	await Global.fruit_fell
+	# 空から振ってきたフルーツが落下するまで待つ
+	await Global.fruit_fell_from_sky
 	# 次のフルーツを作成する
 	_create_new_fruit()
 

@@ -3,8 +3,11 @@ extends Node
 
 # スコアが変わったときに発火する
 signal score_changed
-# 上から落とされたフルーツが何かに衝突したときに発火する
+# フルーツが落下したときに発火する
+# 合体して浮いたフルーツが接地することも含める
 signal fruit_fell
+# 空から落とされたフルーツが落下したときに発火する
+signal fruit_fell_from_sky
 # フルーツが合体したときに発火する
 signal fruit_conbined
 
