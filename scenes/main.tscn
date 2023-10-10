@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://f5a5phy22pqb" path="res://images/circle.png" id="4_i064j"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nddcy"]
-size = Vector2(256, 256)
+size = Vector2(256, 128)
 
 [node name="Main" type="Node"]
 
