@@ -23,6 +23,7 @@ var _is_game_active = false
 var _current_fruit = null
 var _current_fruit_id = 0
 var _next_fruit_type = Global.FruitType.NONE
+var _dead_fruit_id_list = []
 
 # ボタンの状態
 var _is_button_left_down = false
@@ -61,10 +62,11 @@ func _ready():
 	_title_label.text = "FOOLUITS"
 	_start_button.text = "START"
 	
-	# Signal 設定
+	# Signal 接続
 	Global.score_changed.connect(_on_score_changed)
+	Global.fruit_fell.connect(_on_fruit_fell)
 	Global.fruit_conbined.connect(_on_fruit_conbined)
-	
+
 	_is_game_active = false
 	set_process(false)
 
@@ -79,8 +81,14 @@ func _on_score_changed(score):
 	_score_label.text = "SCORE: {0}".format([score])
 
 
+# フルーツ落下時の処理
+func _on_fruit_fell(fruit_id):
+	if (fruit_id in _dead_fruit_id_list):
+		_end_game()
+
+
 # フルーツ合体時の処理
-func _on_fruit_conbined():
+func _on_fruit_conbined(fruit_id):
 	# ゲーム進行中ではない場合: 何もしない
 	# ゲーム終了時の音を優先するため
 	if !_is_game_active:
@@ -92,11 +100,22 @@ func _on_fruit_conbined():
 	_audio_player.play()
 
 
-# DeadLine/Area2D 衝突時の処理
+# DeadLine/Area2D に触れたときの処理
 func _on_area_2d_body_entered(body):
-	# 衝突相手が落下したフルーツの場合: ゲームを終了する
-	if (_is_fell_fruit(body)):
-		_end_game()
+	var _fruit = body.get_node("../")
+	
+	# 触れた相手がフルーツの場合: ID をリストに追加する
+	if (_fruit.is_in_group("Fruit")):
+		_dead_fruit_id_list.append(_fruit.id)
+
+
+# DeadLine/Area2D から離れたときの処理
+func _on_area_2d_body_exited(body):
+	var _fruit = body.get_node("../")
+	
+	# 触れた相手がフルーツの場合: ID をリストから削除する
+	if (_fruit.is_in_group("Fruit")):
+		_dead_fruit_id_list.erase(_fruit.id)
 
 
 func _on_start_button_up():
@@ -130,6 +149,10 @@ func _on_drop_button_up():
 	_drop_fruit()
 	# 空から振ってきたフルーツが落下するまで待つ
 	await Global.fruit_fell_from_sky
+	
+	if !_is_game_active:
+		return
+	
 	# 次のフルーツを作成する
 	_create_new_fruit()
 
@@ -154,8 +177,8 @@ func _end_game():
 	set_process(false)
 	
 	# バケツ内のフルーツをすべて静止させる
-	for node in _fruits.get_children():
-		node.rb.sleeping = true
+	for _fruit in _fruits.get_children():
+		_fruit.rb.sleeping = true
 	
 	# SE を鳴らす
 	_audio_player.stop()
@@ -176,16 +199,15 @@ func _reset_game():
 	Global.score = 0
 	
 	# Private
-	_is_game_active = false
 	_current_fruit = null
 	_current_fruit_id = 0
 	_next_fruit_type = Global.FruitType.NONE
 	_dead_fruit_id_list = []
 	
 	# バケツ内のフルーツをすべて破棄する
-	for node in _fruits.get_children():
-		_fruits.remove_child(node)
-		node.queue_free()
+	for _fruit in _fruits.get_children():
+		_fruits.remove_child(_fruit)
+		_fruit.queue_free()
 
 
 # 新しいフルーツを作成する

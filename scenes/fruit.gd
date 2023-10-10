@@ -93,24 +93,24 @@ func _conbine_fruits(body):
 	_conbined_fruit.rb.position = rb.position.lerp(_other_fruit.rb.position, 0.5)
 	get_tree().root.get_node("Main/Game/Fruits").add_child(_conbined_fruit)
 	
-	Global.fruit_conbined.emit()
+	Global.fruit_conbined.emit(id)
 	
 	print("Fruits are conbined. (id: {id1}, {id2})".format({"id1": _other_fruit.id, "id2": id}))
 
 
-# 衝突相手が自分と同じ種類の自分より若いフルーツかどうかを取得する
+# 触れた相手が自分と同じ種類の自分より若いフルーツかどうかを取得する
 func _is_same_fresh_fruit(body):
 	var _fruit = body.get_node("../")
 	
-	# 衝突相手がフルーツではない場合
+	# 触れた相手がフルーツではない場合
 	if (!_fruit.is_in_group("Fruit")):
 		return false
-	# 衝突相手が違う種類の場合
+	# 触れた相手が違う種類の場合
 	if (_fruit.type != type):
 		return false
-	# 衝突相手が自分より古い場合
+	# 触れた相手が自分より古い場合
 	# 自分自身と無限に合体するバグがあるため ">" ではなく ">=" とする
 	if (_fruit.id >= id):
 		return false
-	# 衝突相手が自分と同じ種類の自分より若いフルーツの場合
+	# 触れた相手が自分と同じ種類の自分より若いフルーツの場合
 	return true
