@@ -14,8 +14,8 @@ const FRUIT_DEFAULT_TYPES = [
 ]
 
 const DROPPER_MOVE_SPEED = 100 # px/s
-const DROPPER_POSITION_MIN = 60 # px
-const DROPPER_POSITION_MAX = 300 # px
+const DROPPER_POSITION_MIN = 80 # px
+const DROPPER_POSITION_MAX = 280 # px
 const DROPPER_FRUIT_MARGIN = 40 # px
 
 
