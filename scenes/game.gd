@@ -56,9 +56,11 @@ func _ready():
 	_title_label = $"../UI/CanvasLayer/VBoxContainer/Body/VBoxContainer/TitleLabel"
 	_start_button = $"../UI/CanvasLayer/VBoxContainer/Body/VBoxContainer/StartButton"
 	
-	# 開始時のメニューを設定する
+	# 開始時の GUI を設定する
 	_title_label.text = "FOOLUITS"
 	_start_button.text = "START"
+	_menu_container.show()
+	_next_sprite.hide()
 	
 	# Signal 接続
 	Global.score_changed.connect(_on_score_changed)
@@ -173,6 +175,7 @@ func _on_drop_button_down():
 	# 空から振ってきたフルーツが落下するまで待つ
 	await Global.fruit_fell_from_sky
 	
+	# フルーツの落下によってゲームが終了する可能性があるためもう一度確認する
 	if !_is_game_active:
 		return
 	
@@ -209,11 +212,11 @@ func _end_game():
 	_audio_player.stream = GAME_OVER_SOUND
 	_audio_player.play()
 	
-	# リトライ時のメニューを設定する
+	# リトライ時の GUI を設定する
 	_title_label.text = "GAME OVER"
 	_start_button.text = "RETRY"
-	
 	_menu_container.show()
+	_next_sprite.hide()
 	
 	print("Game is ended!")
 

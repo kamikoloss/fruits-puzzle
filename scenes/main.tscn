@@ -44,8 +44,7 @@ layout_mode = 2
 size_flags_vertical = 1
 theme_override_fonts/font = ExtResource("1_5ec4u")
 theme_override_font_sizes/font_size = 24
-text = "SCORE
-9999"
+text = "SCORE"
 horizontal_alignment = 1
 
 [node name="_" type="MarginContainer" parent="UI/CanvasLayer/VBoxContainer/Header/HBoxContainer"]
