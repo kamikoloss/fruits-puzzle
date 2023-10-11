@@ -35,7 +35,6 @@ var _dropper = null
 var _fruits = null
 
 var _score_label = null
-var _next_label = null
 var _next_sprite = null
 
 var _menu_container = null # 開始時/リトライ時 兼用のメニュー
@@ -50,9 +49,8 @@ func _ready():
 	_dropper = $Dropper
 	_fruits = $Fruits
 	
-	_score_label = $"../UI/CanvasLayer/VBoxContainer/Header/MarginContainer/VBoxContainer/ScoreLabel"
-	_next_label = $"../UI/CanvasLayer/VBoxContainer/Header/MarginContainer/VBoxContainer/NextLabel"
-	_next_sprite = $"../UI/CanvasLayer/VBoxContainer/Header/NextSprite"
+	_score_label = $"../UI/CanvasLayer/VBoxContainer/Header/HBoxContainer/Score/Label"
+	_next_sprite = $"../UI/CanvasLayer/VBoxContainer/Header/HBoxContainer/Next/Sprite"
 	
 	_menu_container = $"../UI/CanvasLayer/VBoxContainer/Body/VBoxContainer"
 	_title_label = $"../UI/CanvasLayer/VBoxContainer/Body/VBoxContainer/TitleLabel"
@@ -78,7 +76,7 @@ func _process(delta):
 
 # スコア変更時の処理
 func _on_score_changed(score):
-	_score_label.text = "SCORE: {0}".format([score])
+	_score_label.text = "SCORE\n{0}".format([score])
 
 
 # フルーツ落下時の処理
@@ -165,6 +163,7 @@ func _on_drop_button_up():
 # ゲームを開始する (リセット処理も含む)
 func _start_game():
 	_menu_container.hide()
+	_next_sprite.show()
 	
 	_reset_game()
 	_set_next_fruit()
@@ -193,6 +192,7 @@ func _end_game():
 	# リトライ時のメニューを設定する
 	_title_label.text = "GAME OVER"
 	_start_button.text = "RETRY"
+	
 	_menu_container.show()
 	
 	print("Game is ended!")
@@ -234,13 +234,9 @@ func _create_new_fruit():
 func _set_next_fruit():
 	# 次のフルーツの種類を抽選する
 	_next_fruit_type = FRUIT_DEFAULT_TYPES[randi() % FRUIT_DEFAULT_TYPES.size()]
-	var _next_fruit_data = Global.FRUIT_DATA[_next_fruit_type]
-	
-	# 次のフルーツの文字を更新する
-	var _next_fruit_name = _next_fruit_data["name"]
-	_next_label.text = "NEXT: {0}".format([_next_fruit_name])
 	
 	# 次のフルーツの画像を更新する
+	var _next_fruit_data = Global.FRUIT_DATA[_next_fruit_type]
 	var _next_scale = float(_next_fruit_data["scale"]) / Global.FRUIT_SIZE_BASE
 	_next_sprite.scale = Vector2(_next_scale, _next_scale)
 	_next_sprite.get_node("Circle").modulate = Color(_next_fruit_data["color"])
