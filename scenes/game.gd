@@ -125,14 +125,15 @@ func _input(event):
 	if event is InputEventKey:
 		if event.pressed:
 			match event.keycode:
+				KEY_ENTER:
+					if (!_is_game_active):
+						_start_game()
 				KEY_DOWN:
 					_on_drop_button_down()
 				KEY_LEFT:
 					_on_left_button_down()
 				KEY_RIGHT:
 					_on_right_button_down()
-			if (!_is_game_active):
-				_start_game()
 		else:
 			match event.keycode:
 				KEY_LEFT:
