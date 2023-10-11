@@ -169,7 +169,7 @@ texture = ExtResource("3_lcnow")
 polygon = PackedVector2Array(-139, -139, -110.1, 140, 110.1, 140, 139.1, -150, 150, -150, 150, -140, 148.9, -140, 120.9, 150, -121, 150, -121, 139, -150, -140.9, -150, -150, -139, -150)
 
 [node name="DeadLine" type="Node2D" parent="Game"]
-position = Vector2(180, 200)
+position = Vector2(180, 212.8)
 scale = Vector2(2, 0.05)
 
 [node name="Area2D" type="Area2D" parent="Game/DeadLine"]
@@ -179,7 +179,7 @@ modulate = Color(1, 0, 0, 0.25098)
 texture = ExtResource("4_3hjtg")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Game/DeadLine/Area2D"]
-position = Vector2(0, -64)
+position = Vector2(0, -320)
 shape = SubResource("RectangleShape2D_nddcy")
 
 [node name="Dropper" type="Node2D" parent="Game"]
