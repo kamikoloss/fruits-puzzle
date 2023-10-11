@@ -121,8 +121,27 @@ func _on_area_2d_body_exited(body):
 		_dead_fruit_id_list.erase(_fruit.id)
 
 
-func _on_start_button_up():
-	# ゲームを開始する
+func _input(event):
+	if event is InputEventKey:
+		if event.pressed:
+			match event.keycode:
+				KEY_DOWN:
+					_on_drop_button_down()
+				KEY_LEFT:
+					_on_left_button_down()
+				KEY_RIGHT:
+					_on_right_button_down()
+			if (!_is_game_active):
+				_start_game()
+		else:
+			match event.keycode:
+				KEY_LEFT:
+					_on_left_button_up()
+				KEY_RIGHT:
+					_on_right_button_up()
+
+
+func _on_start_button_button_down():
 	_start_game()
 
 
@@ -142,7 +161,7 @@ func _on_right_button_up():
 	_is_button_right_down = false
 
 
-func _on_drop_button_up():
+func _on_drop_button_down():
 	if !_is_game_active:
 		return
 	if _current_fruit == null:
