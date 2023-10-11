@@ -43,6 +43,11 @@ func _ready():
 
 
 func _on_rigid_body_2d_body_entered(body):
+	# 触れた相手がまだ落下していないフルーツ (今から落とされるフルーツ) の場合: 何もしない
+	var _fruit = body.get_node("../")	
+	if (_fruit.is_in_group("Fruit") and !_fruit.is_fell):
+		return
+	
 	# 触れた相手が自分と同じ種類の自分より若いフルーツの場合: 合体する
 	if (_is_same_fresh_fruit(body)):
 		_conbine_fruits(body)
